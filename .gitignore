@@ -9,3 +9,5 @@ Latex/Project.fls
 Latex/Project.aux
 Latex/Project.fdb_latexmk
 Latex/Configuration_Files/config.tex
+myenv/
+Python_analysisi/myenv/
