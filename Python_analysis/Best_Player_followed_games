@@ -1,0 +1,78 @@
+import pymongo
+
+def trova_giocatore_per_id(lista_giocatori, object_id):
+    for giocatore in lista_giocatori:
+        if giocatore['_id'] == object_id:
+            return giocatore
+    return None
+
+def elimina_ridondanze(lista_dizionari):
+    visti = set()
+    lista_pulita = []
+    for dizionario in lista_dizionari:
+        # Convertiamo il dizionario in una tupla di coppie chiave-valore per poterla inserire in un insieme
+        if dizionario['_id'] not in visti:
+            visti.add(dizionario['_id'])
+            lista_pulita.append(dizionario)
+    return lista_pulita
+
+# Connessione al client MongoDB
+client = pymongo.MongoClient("mongodb://localhost:27017/")
+db = client.football
+
+# Definizione della query di aggregazione
+query_games = [
+    { "$unwind": "$games" },
+    { "$project": { "game_id": "$games.game_id", "attendance": "$games.attendance" } },
+    { "$sort": { "attendance": -1 } },
+    { "$limit": 50 }
+]
+
+# Esecuzione della query sulla collezione 'competitions'
+resultGames = db.competitions.aggregate(query_games)
+
+topNgames= []
+
+for record in resultGames:
+    topNgames.append(record)
+
+playerInTopGames = []
+
+for record in topNgames:
+    query_player = [
+    { "$unwind": "$appearances" },
+    { "$match": { "appearances.game_id": record['game_id'] } },
+    { "$project": { "valuations": 0 } }
+]
+    # Esecuzione della query sulla collezione 'players'
+    resultPlayer = db.players.aggregate(query_player)
+
+    for recordPlayer in resultPlayer:
+        playerInTopGames.append(recordPlayer)
+
+
+
+
+
+
+# Stampa dei risultati
+#for record in playerInTopGames:
+    #print(record)
+
+
+conteggi = {}
+for elemento in playerInTopGames:
+    #print(elemento['_id'])
+    conteggi[elemento['_id']] = conteggi.get(elemento['_id'], 0) + 1
+    
+elementi_ordinati = sorted(conteggi.items(), key=lambda x: x[1], reverse=True)
+
+noRedundancyPlayer = elimina_ridondanze(playerInTopGames)
+
+print(elementi_ordinati[0][0])
+print(type(playerInTopGames))
+print(trova_giocatore_per_id(noRedundancyPlayer,elementi_ordinati[0][0]))
+
+for i in range (10):
+    player_top = trova_giocatore_per_id(noRedundancyPlayer,elementi_ordinati[i][0])
+    print(player_top['name'],elementi_ordinati[i][1],"Partite giocate")

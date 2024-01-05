@@ -1,0 +1,74 @@
+Percentuale di giocatori coperta dai primi 10 agenti:
+Totale: 7.37% dei giocatori
+- Agente Wasserman: 1.43% dei giocatori, 407 giocatori
+- Agente CAA Stellar: 1.15% dei giocatori, 328 giocatori
+- Agente ProStar: 1.11% dei giocatori, 315 giocatori
+- Agente CAA Base Ltd: 0.78% dei giocatori, 222 giocatori
+- Agente Unique Sports Group: 0.70% dei giocatori, 198 giocatori
+- Agente YOU FIRST: 0.56% dei giocatori, 158 giocatori
+- Agente Promoesport: 0.46% dei giocatori, 132 giocatori
+- Agente SEG: 0.45% dei giocatori, 129 giocatori
+- Agente ROOF: 0.39% dei giocatori, 111 giocatori
+- Agente Gestifute: 0.34% dei giocatori, 98 giocatori
+
+Riassunto della Distribuzione degli Agenti e dei Giocatori:
+
+Distribuzione degli Agenti per Range di Giocatori:
+- 407 Giocatori: 1 agenti
+- 328 Giocatori: 1 agenti
+- 315 Giocatori: 1 agenti
+- 222 Giocatori: 1 agenti
+- 198 Giocatori: 1 agenti
+- 158 Giocatori: 1 agenti
+- 132 Giocatori: 1 agenti
+- 129 Giocatori: 1 agenti
+- 111 Giocatori: 1 agenti
+- 90-99 Giocatori: 1 agenti
+- 80-89 Giocatori: 2 agenti
+- 70-79 Giocatori: 2 agenti
+- 60-69 Giocatori: 5 agenti
+- 50-59 Giocatori: 5 agenti
+- 40-49 Giocatori: 17 agenti
+- 30-39 Giocatori: 30 agenti
+- 20-29 Giocatori: 45 agenti
+- 15-19 Giocatori: 59 agenti
+- 10-14 Giocatori: 122 agenti
+- 9 Giocatori: 41 agenti
+- 8 Giocatori: 60 agenti
+- 7 Giocatori: 73 agenti
+- 6 Giocatori: 87 agenti
+- 5 Giocatori: 120 agenti
+- 4 Giocatori: 162 agenti
+- 3 Giocatori: 260 agenti
+- 2 Giocatori: 443 agenti
+- 1 Giocatori: 974 agenti
+
+Distribuzione Percentuale dei Giocatori per Categoria di Agenti:
+- 407 Giocatori: 2.91% dei giocatori
+- 328 Giocatori: 2.35% dei giocatori
+- 315 Giocatori: 2.25% dei giocatori
+- 222 Giocatori: 1.59% dei giocatori
+- 198 Giocatori: 1.42% dei giocatori
+- 158 Giocatori: 1.13% dei giocatori
+- 132 Giocatori: 0.94% dei giocatori
+- 129 Giocatori: 0.92% dei giocatori
+- 111 Giocatori: 0.79% dei giocatori
+- 90-99 Giocatori: 0.70% dei giocatori
+- 80-89 Giocatori: 1.17% dei giocatori
+- 70-79 Giocatori: 1.10% dei giocatori
+- 60-69 Giocatori: 2.24% dei giocatori
+- 50-59 Giocatori: 1.92% dei giocatori
+- 40-49 Giocatori: 5.34% dei giocatori
+- 30-39 Giocatori: 7.19% dei giocatori
+- 20-29 Giocatori: 7.61% dei giocatori
+- 15-19 Giocatori: 7.11% dei giocatori
+- 10-14 Giocatori: 10.05% dei giocatori
+- 9 Giocatori: 2.64% dei giocatori
+- 8 Giocatori: 3.43% dei giocatori
+- 7 Giocatori: 3.65% dei giocatori
+- 6 Giocatori: 3.73% dei giocatori
+- 5 Giocatori: 4.29% dei giocatori
+- 4 Giocatori: 4.63% dei giocatori
+- 3 Giocatori: 5.58% dei giocatori
+- 2 Giocatori: 6.33% dei giocatori
+- 1 Giocatori: 6.96% dei giocatori
