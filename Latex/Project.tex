@@ -761,7 +761,371 @@ This analysis shows those players who are certainties for their clubs: the so-ca
     \caption{Players with the most minutes played Executed with IT1 competition}
 \end{figure}
 
-\section{PAGINA 28}
+\subsection{The players with the highest market value}
+This query is designed to identify the top soccer players in the database, highlighting those with the highest market value. It provides an overview of the most valuable talents in the world of soccer, revealing the names of players who have not only demonstrated excellent performances on the field, but are also considered valuable investments in the soccer landscape. Players can sometimes be overestimated or underestimated. This data is important because it takes into account not only performance but also a player's age. Younger players with important statistics will command high market prices.
+\\The first proposed query shows the current situation of market values for the players in the dataset ordered by their value in a descendent way.
+\begin{verbatim}
+    db.players.find({}, { name: 1, market_value_in_eur: 1 }).sort({ market_value_in_eur: -1 }).limit(10)
+\end{verbatim}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.8]{Images/Queries/Highest_value_players/1.png}
+    \caption{The players with the highest market value First Query Execution}
+\end{figure}
+The second query shows the best valuation for each player during its career and then orders these values in a descendent way.
+\begin{verbatim}
+    db.players.aggregate([
+  { $unwind: "$valuations" },
+  { $group: { _id: "$_id", name: { $first: "$name" }, maxMarketValue: { $max: "$valuations.market_value_in_eur" }, season: { $first: "$valuations.last_season" } } },
+  { $sort: { maxMarketValue: -1 } }
+])
+\end{verbatim}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.8]{Images/Queries/Highest_value_players/2.png}
+    \caption{The players with the highest market value Second Query Execution}
+\end{figure}
+
+\subsection{The cities where the most players were born}
+This query lists the cities that produced the most players. It uses the $group operation to group players by their city of birth, counts the number of players for each city with $sum, and then sorts the results descendingly to show which cities generated the most football talents.
+\begin{verbatim}
+    db.players.aggregate([
+  { $group: { _id: "$city_of_birth", numberOfPlayers: { $sum: 1 } } },
+  { $sort: { numberOfPlayers: -1 } }
+])
+\end{verbatim}
+Not all the players in the database have a city of birth, so there are a count also of the players with this attribute null.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=1]{Images/Queries/Cities/cities.png}
+    \caption{The cities where the most players were born Query Execution}
+\end{figure}
+\subsection{The most prolific and expensive strikers}
+This query aims to identify the center forwards (position "A") with the highest market value and the most goals scored. We start by filtering the players by their position, then use the \$unwind operator to decompose the array of appearances. Next, you aggregate the data to calculate the total number of goals and sort the results by market value and goals in a descending fashion. The first returned players are likely to be stars of the football. 
+\begin{verbatim}
+    db.players.aggregate([
+        { $match: { position: "A" } },
+        { $unwind: "$appearances" },
+        { $group: { _id: "$_id", name: { $first: "$name" }, totalGoals: { $sum: "$appearances.goals" }, marketValue: { $first: "$market_value_in_eur" } } },
+        { $sort: { marketValue: -1, totalGoals: -1 } }
+      ])      
+\end{verbatim}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.8]{Images/Queries/Prolific_expensive_strikers/pes.png}
+    \caption{The most prolific and expensive strikers Query Execution}
+\end{figure}
+\subsection{Midfielders with the most goals and assists and a bounded valuation}
+The query focuses on midfielders (position "M") with a market value lower and upper bound, but with a high number of goals and assists. After filtering by position, it uses \$unwind to decompose the array of appearances. It then aggregates the data to calculate the total goals and assists for each player, and finally sorts the results by goals and assists in descending order, taking into account only those players whose market value falls within a predefined average range. As can be understood, if a club has a certain budget available and wants to look for the best ones to fill a role, this query will be very useful.
+\begin{verbatim}
+    db.players.aggregate([
+        { $match: { position: "M", market_value_in_eur:
+         { $gte: 10000000, $lte: 20000000 } } },
+        { $unwind: "$appearances" },
+        { $group: { _id: "$_id", name: { $first: "$name" }, totalGoals: { $sum: "$appearances.goals" }, totalAssists: { $sum: "$appearances.assists" } } },
+        { $sort: { totalGoals: -1, totalAssists: -1 } }
+      ])    
+      
+    min=10000000
+    max=20000000  
+\end{verbatim}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.6]{Images/Queries/Midfielders_goal_assit_bounded_value/mgabv.png}
+    \caption{Midfielders with the most goals and assists and a bounded valuation Query Execution}
+\end{figure}
+
+\subsection{The cheapest but most prolific full-back defenders}
+This query aims to identify right-backs (RB) and left-backs (LB) with the lowest market value but high assists and goals. It filters players by RB and LB sub-positions, calculates the total assists and goals, and sorts first by ascending market value and then by descending assists and goals. The query highlights those full-backs who, while not having a high market value, have a significant impact in terms of their contribution to the game. Despite being defenders, offensive-minded teams need these players to increase their number of goals.
+
+\begin{verbatim}
+    db.players.aggregate([
+        { $match: { 
+            sub_position: { $in: ["RB", "LB"] },
+            market_value_in_eur: { $ne: null }    }},
+        { $unwind: "$appearances" },
+        { $group: { 
+            _id: "$_id", 
+            name: { $first: "$name" },
+            marketValue: { $first: "$market_value_in_eur" },
+            totalAssists: { $sum: "$appearances.assists" },
+            totalGoals: { $sum: "$appearances.goals" }
+        }},
+        { $sort: { marketValue: 1, totalAssists: -1, totalGoals: -1 } }
+      ])
+      
+\end{verbatim}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.8]{Images/Queries/Cheapest_prolific_full_backs/cpfb.png}
+    \caption{The cheapest but most prolific full-back defenders Query Execution}
+\end{figure}
+
+\subsection{Players in a Specific Match}
+This aggregation query lists all players who appeared in a specific match, identified by the game\_ID. It begins by deconstructing the appearances array with \$unwind. Then, it filters the documents with \$match to only those where the game\_id within appearances matches the given ID. Finally, \$project is used to exclude the valuations field from the output, returning all other player details. This query is helpful for analyzing participation in particular games. In the case of this query the game:id chosen was 2469936 (of course it could be changed).
+
+\begin{verbatim}
+    db.players.aggregate([
+  { $unwind: "$appearances" },
+  { $match: { "appearances.game_id": 2469936 } },
+  { $project:  { valuations: 0 } }
+])
+\end{verbatim}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.8]{Images/Queries/Players_in_game/pg.png}
+    \caption{Players in a Specific Match Query Execution}
+\end{figure}
+
+\subsection{Defender with most cards (Yellow and Red cards summed up)}
+This query identifies the defenders who received the highest total number of cards, summing yellow and red cards. After filtering players by defensive position, the query breaks down the array of appearances, aggregates the total number of red and yellow cards per player, and finally sorts the results in descending order to display the most "undisciplined" defenders.
+\begin{verbatim}
+    db.players.aggregate([
+  { $match: { position: "D" } },
+  { $unwind: "$appearances" },
+  { $group: { _id: "$_id", name: { $first: "$name" }, totalCards: { $sum: { $add: ["$appearances.yellow_cards", "$appearances.red_cards"] } } } },
+  { $sort: { totalCards: -1 } }
+])
+\end{verbatim}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.8]{Images/Queries/Defenders_most_cards/dmc.png}
+    \caption{Defender with most cards  Query Execution}
+\end{figure}
+
+\subsection{The nations with the best talents in terms of market value during the years}
+This query identifies the nations that produce the players with the highest market values by analyzing the maximum market value achieved by each player. After decomposing the valuations array, it aggregates the maximum market value for each player and then averages these maximum values by nation, sorting the nations by this average.
+\begin{verbatim}
+    db.players.aggregate([
+  { $unwind: "$valuations" },
+  { $group: { _id: "$_id", country: { $first: "$country_of_citizenship" }, maxMarketValue: { $max: "$valuations.market_value_in_eur" } } },
+  { $group: { _id: "$country", averageMaxMarketValue: { $avg: "$maxMarketValue" } } },
+  { $sort: { averageMaxMarketValue: -1 } }
+])
+\end{verbatim}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.8]{Images/Queries/Nation_talents_market_value/ntmv.png}
+    \caption{Nations with the best talents in terms of market value Query Execution}
+\end{figure}
+
+\subsection{The nations with most goals scored by their players}
+This query identifies the nation that produces the players with the most goals. It first breaks down the array of each player's appearances, then groups the players by nation and adds up the goals scored. Finally, it sorts the nations by total number of goals to find out which nation produced the best scorers.
+\begin{verbatim}
+    db.players.aggregate([
+  { $unwind: "$appearances" },
+  { $group: { _id: "$country_of_citizenship", totalGoals: { $sum: "$appearances.goals" } } },
+  { $sort: { totalGoals: -1 } }
+])
+\end{verbatim}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.8]{Images/Queries/Nation_goals/ng.png}
+    \caption{Nations with most goals scored by their players Query Execution}
+\end{figure}
+
+\subsection{Average Market Value for each club}
+
+This query calculates the average market value of the players for each club. It uses the \$group operation to group players by their current club, then calculates the average market value (found in the valuations array) for each club. Finally, sort the results to show the clubs by the average market value of their players.
+
+\begin{verbatim}
+    db.players.aggregate([
+  { $unwind: "$valuations" },
+  { $group: { _id: "$current_club_name", averageMarketValue: { $avg: "$valuations.market_value_in_eur" } } },
+  { $sort: { averageMarketValue: -1 } }
+])
+
+\end{verbatim}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.8]{Images/Queries/Average_market_value_club/amvc.png}
+    \caption{Average Market Value for each club Query Execution}
+\end{figure}
+
+\subsection{Most Prolific free agents}
+
+This query identifies free agent players with the best goal scoring statistics in the last season played. It starts by filtering players without a current club (free agent), then examines their performance in the last season, summing the total number of goals scored. Finally, it sorts the results to show the best scorers among free agents. Many teams resort to signing players without contracts to save on transfer costs, paying only contract fees and some fees to agents or at signing.
+
+\begin{verbatim}
+    db.players.aggregate([
+  { $match: { current_club_name: null } },
+  { $unwind: "$appearances" },
+  { $group: { _id: "$_id", name: { $first: "$name" }, totalGoals: { $sum: "$appearances.goals" }, lastSeason: { $max: "$appearances.last_season" } } },
+  { $sort: { totalGoals: -1 } }
+])
+
+\end{verbatim}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.8]{Images/Queries/Most_prolific_free_agents/mpfa.png}
+    \caption{Most Prolific free agents Query Execution}
+\end{figure}
+
+
+\subsection{Cristiano Ronaldo (specific player) goals }
+To calculate the total number of goals scored by Cristiano Ronaldo, the query should first locate the specific player in the database (e.g., by name or unique ID). Next, it uses $unwind to decompose the array of appearances and $group to sum the goals scored. Finally, it presents the total goals.
+Obviously, by changing names and searching for another player, one can see how many goals the requested player has scored.
+\begin{verbatim}
+    db.players.aggregate([
+  { $match: { name: "Cristiano Ronaldo" } },
+  { $unwind: "$appearances" },
+  { $group: { _id: "$_id", totalGoals: { $sum: "$appearances.goals" } } }
+])
+\end{verbatim}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=1]{Images/Queries/Cristiano_Ronaldo_goals/CRG.png}
+    \caption{Cristiano Ronaldo Query Execution}
+\end{figure}
+
+\subsection{The youngest player}
+To find the youngest player in the database, the query sorts all players by their date of birth, from newest to oldest. In this way, the first player in the resulting list will be the youngest. Of course, to find the oldest you need to change "-1" with "1".
+\begin{verbatim}
+    db.players.find().sort({ date_of_birth: -1 }).limit(1)
+\end{verbatim}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=1]{Images/Queries/Youngest/y.png}
+    \caption{The youngest player Query Execution}
+\end{figure}
+
+\subsection{Strikers with more matches without goals}
+This query identifies the forwards who had the most appearances in games without scoring goals. It first filters by position, identifying forwards, then breaks down the array of appearances. With an aggregation, it counts the number of games in which the player did not score, and finally sorts the results to show who had the most appearances without scoring goals. 
+\begin{verbatim}
+    db.players.aggregate([
+  { $match: { sub_position: "CF" } },
+  { $unwind: "$appearances" },
+  { $group: { _id: "$_id", name: { $first: "$name" },
+    appearancesWithoutGoals: 
+        { $sum: { $cond: [{ $eq: ["$appearances.goals", 0] }, 1, 0] } } } },
+  { $sort: { appearancesWithoutGoals: -1 } }
+])
+\end{verbatim}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=1]{Images/Queries/Strikers_without_goals/swg.png}
+    \caption{Strikers with more matches without goals Query Execution}
+\end{figure}
+
+\subsection{Average height of goalkeepers}
+Within the 'players' collection SI first filters by position, selecting only players classified as goalkeepers (e.g., position "G" for goalkeeper), then groups the data to calculate the average height.
+\begin{verbatim}
+    db.players.aggregate([
+  { $match: { position: "G" } },  
+  { $group: { _id: null, averageHeight: { $avg: "$height_in_cm" } } }
+])
+\end{verbatim}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=1]{Images/Queries/Avg_goalkeepers_height/agh.png}
+    \caption{Average height of goalkeepers Query Execution}
+\end{figure}
+
+\subsection{Agent with the most valuable player}
+This query identifies the agent of the player with the highest market value recorded directly in the player's document. Each player is assumed to have a market value defined in the market\_value\_in\_eur field. The query sorts all player documents by this value in a descending manner and selects the first document, which represents the player with the highest value, and then projects the name of the agent.
+
+\begin{verbatim}
+    db.players.find(
+  { market_value_in_eur: { $exists: true, $ne: null } },
+  { name: 1, agent_name: 1, market_value_in_eur: 1 }
+).sort({ market_value_in_eur: -1 }).limit(1)
+\end{verbatim}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=1]{Images/Queries/Average_market_value_club/amvc.png}
+    \caption{Agent with the most valuable player Query Execution}
+\end{figure}
+However, in this specific case, the result will show "null" for the agent\_name field indicating that there is no registered agent, which may correspond to situations where a family member, such as the mother in Mbappé's case, assists the player in contractual matters.
+
+\subsection{The italian players with the highest goal ratio}
+
+This query shows the best italian players with the highest ratio between goal and appearances.
+To get the Italian players with the highest goal-to-presence ratio, the query would first calculate the total goals and total appearances for each Italian player, then divide the total goals by the total number of appearances to get the ratio. Here is how it would be structured:
+
+\begin{enumerate}
+    \item Filter players by country\_of\_citizenship set to "Italy."
+    \item Expand the appearances array.
+    \item Group the results by player, adding up the goals scored and counting the appearances.
+    \item Calculate the goals/appearances ratio for each player.
+    \item Sort the results by goal/attendance ratio in a descending manner.
+\end{enumerate}
+The statistics are important only for players with more than 50 appearances.
+
+\begin{verbatim}
+    db.players.aggregate([
+  { $match: { country_of_citizenship: "Italy" } },
+  { $unwind: "$appearances" },
+  { $group: { 
+      _id: "$_id", 
+      name: { $first: "$name" }, 
+      totalGoals: { $sum: "$appearances.goals" }, 
+      totalAppearances: { $sum: 1 }
+    } 
+  },
+  { $match: { totalAppearances: { $gte: 50 } } },
+  { $project: { 
+      name: 1, 
+      goalRatio: { $divide: [ "$totalGoals", "$totalAppearances" ] }
+    } 
+  },
+  { $sort: { goalRatio: -1 } }
+])
+\end{verbatim}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=1]{Images/Queries/Italian_ratio_goals/irg.png}
+    \caption{The italian players with the highest goal ratio Query Execution}
+\end{figure}
+
+\subsection{The French players with the highest minutes ratio}
+This query shows the best italian players with the highest ratio between minutes and appearances.
+To get the French players with the highest minutes-to-apperance ratio, the query would first calculate the total minutes and total appearances for each player, then divide the total minutes by the total number of appearances to get the ratio. Here is how it would be structured:
+\begin{enumerate}
+    \item Filter players by country\_of\_citizenship set to "France."
+    \item Expand the appearances array.
+    \item Group the results by player, adding up the minutes played and counting the appearances.
+    \item Calculate the minutes/appearances ratio for each player.
+    \item Sort the results by minutes/attendance ratio in a descending manner.
+    \item The statistics are important only for players with more than 50 appearances.
+\end{enumerate}
+\begin{verbatim}
+    db.players.aggregate([
+  { $match: { country_of_citizenship: "France" } },
+  { $unwind: "$appearances" },
+  { $group: { 
+      _id: "$_id", 
+      name: { $first: "$name" }, 
+      totaMinutes: { $sum: "$appearances.minutes_played" }, 
+      totalAppearances: { $sum: 1 }
+    } 
+  },
+  { $match: { totalAppearances: { $gte: 50 } } },
+  { $project: { 
+      name: 1, 
+      minutesRatio: { $divide: [ "$totaMinutes", "$totalAppearances" ] }
+    } 
+  },
+  { $sort: { minutesRatio: -1 } }
+])
+\end{verbatim}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=1]{Images/Queries/French_minutes_ratio/fmr.png}
+    \caption{The French players with the highest minutes ratio Query Execution}
+\end{figure}
+
+\section{Competitions Collection PG 47}
+
 
 %-------------------------------------------------------------------------
 %	APPENDICES
