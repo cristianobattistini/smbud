@@ -1178,17 +1178,24 @@ The second query returns the most followed matches filtering by competition. It 
     \caption{Most Followed Matches Second Query Execution}
 \end{figure}
 
-\subsection{Most Wins at home by a club MANCA FOTOOOO}
-These queries return the clubs who have conducted more wins at home. It could also be filtered by competition id.
+\subsection{Most goals scored by a single team}
+These queries are designed to retrieve the games with the highest number of goals scored by a single team, with the second one specifically filtering for games within the "Champions League" competition. They unwind the games array, calculate the maximum goals scored in a game, sort the results by this maximum in descending order, and limit the output to the top 5 records.
 \begin{verbatim}
-    db.competitions.aggregate([
-  { $unwind: "$games" },
-  { $group: { _id: "$games.home_club_name", homeWins: 
-    { $sum: { $cond: [
-        { $gt: ["$games.home_club_goals", "$games.away_club_goals"] }, 1, 0] } } } },
-  { $sort: { homeWins: -1 } },
-  { $limit: 5 }
-])
+  db.competitions.aggregate([
+    { $unwind: "$games" },
+    { $project: { game_id: "$games.game_id", maxGoals: { $max: ["$games.home_club_goals", "$games.away_club_goals"] } } },
+    { $sort: { maxGoals: -1 } },
+    { $limit: 5 }
+  ])
+
+  db.competitions.aggregate([
+    { $match: { "competition_id": "CL" } },
+    { $unwind: "$games" },
+    { $project: { game_id: "$games.game_id", maxGoals: { $max: ["$games.home_club_goals", "$games.away_club_goals"] } } },
+    { $sort: { maxGoals: -1 } },
+    { $limit: 5 }
+  ])
+  
 \end{verbatim}
 \begin{figure}[htbp]
     \centering
