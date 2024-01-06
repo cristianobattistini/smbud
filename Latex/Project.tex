@@ -1214,59 +1214,6 @@ These queries are designed to retrieve the games with the highest number of goal
 \end{verbatim}
 
 
-
-\subsection{The most successful coaches}
-This query shows the most important coaches ordered by win. This query was very difficult because the names of the coaches are present inside games, but in games there are 2 managers: one of the home club and one of the away club.\\
-To exclude null values from the final result and not count unknown managers, you can modify the query by adding a condition to discard documents where the manager name is null before performing the final aggregation.The creation of the query followed these steps:
-\begin{enumerate}
-    \item \$unwind: Breaks down the array games.
-    \item \$project: Creates fields representing home and away wins and manager names.
-    \item \$group: Group at the collection level to create arrays with home and away manager wins.
-    \item \$project: Concatenates arrays of home and away wins.
-    \item \$unwind: Breaks down the concatenated array.
-    \item \$match: Adds a filter to discard records where the manager name is null.
-    \item \$group: Groups by manager name, summing wins and discarding null managers.
-    \item \$sort: Sorts managers by total number of wins in a descending manner.
-    \item \$match: This final step excludes documents with \_id null from the result set, removing unknown managers.
-\end{enumerate}
-\begin{verbatim}
-    db.competitions.aggregate([
-        { $unwind: "$games" },
-        { $project: {
-          homeManager: "$games.home_club_manager_name",
-          awayManager: "$games.away_club_manager_name",
-          homeWin: { $cond: { if: 
-          { $gt: [ "$games.home_club_goals", "$games.away_club_goals" ] }, 
-            then: 1, else: 0 } },
-          awayWin: { $cond: { if: 
-          { $gt: [ "$games.away_club_goals", "$games.home_club_goals" ] }, 
-            then: 1, else: 0 } }
-        }},
-        { $group: {
-          _id: null,
-          homeManagerWins: { $push: { k: "$homeManager", v: "$homeWin" } },
-          awayManagerWins: { $push: { k: "$awayManager", v: "$awayWin" } }
-        }},
-        { $project: {managerWins: 
-            { $concatArrays: [ "$homeManagerWins", "$awayManagerWins" ] }
-        }},
-        { $unwind: "$managerWins" },
-        { $match: { "managerWins.k": { $ne: null } } }, // esclude i manager non noti
-        { $group: {
-          _id: "$managerWins.k",
-          totalWins: { $sum: "$managerWins.v" }
-        }},
-        { $sort: { totalWins: -1 } },
-        { $match: { _id: { $ne: null } } } // esclude i risultati dove il nome del manager è null
-      ])
-      
-\end{verbatim}
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[scale=0.8]{Images/Queries/Competitions/most_succesful_coaches/msc.png}
-    \caption{The most successful coaches Query Execution}
-\end{figure}
-
 \section{Clubs Collection}
 \subsection{Clubs with more late goals}
 The query runs through the 'clubs' collection, expands the 'games' array and its 'events' for each club, then filtering out events that are goals scored beyond the 80th minute. It then groups the results by 'club\_code' and counts the late goals for each club, sorting the clubs by the number of these goals.
