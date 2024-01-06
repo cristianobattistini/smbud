@@ -714,7 +714,8 @@ There are also many players who make impetuousness and confrontation their stron
     db.players.aggregate([
   { $unwind: "$appearances" },
   { $match: { "appearances.competition_id": "<competition_id>" } },
-  { $group: { _id: "$_id", totalYellowCards: { $sum: "$appearances.yellow_cards" },  playerName: { $first: "$name" }  } },
+  { $group: { _id: "$_id", totalYellowCards: 
+  +{ $sum: "$appearances.yellow_cards" },  playerName: { $first: "$name" }  } },
   { $sort: { totalYellowCards: -1 } },
   { $limit: 10 }
 ])
@@ -733,7 +734,8 @@ In contrast to yellow cards, which can happen in the course of a match, getting 
     db.players.aggregate([
   { $unwind: "$appearances" },
   { $match: { "appearances.competition_id": "<competition_id>" } },
-  { $group: { _id: "$_id", totalRedCards: { $sum: "$appearances.red_cards" }, playerName: { $first: "$name" } } },
+  { $group: { _id: "$_id", totalRedCards: 
+  { $sum: "$appearances.red_cards" }, playerName: { $first: "$name" } } },
   { $sort: { totalRedCards: -1 } },
   { $limit: 10 }
 ])
@@ -750,7 +752,8 @@ This analysis shows those players who are certainties for their clubs: the so-ca
     db.players.aggregate([
         { $unwind: "$appearances" },
         { $match: { "appearances.competition_id": "<competition_id>" } },
-        { $group: { _id: "$_id", totalMinutesPlayed: { $sum: "$appearances.minutes_played" }, playerName: { $first: "$name" } } },
+        { $group: { _id: "$_id", totalMinutesPlayed: 
+        { $sum: "$appearances.minutes_played" }, playerName: { $first: "$name" } } },
         { $sort: { totalMinutesPlayed: -1 } },
         { $limit: 10 }
       ])      
@@ -765,7 +768,8 @@ This analysis shows those players who are certainties for their clubs: the so-ca
 This query is designed to identify the top soccer players in the database, highlighting those with the highest market value. It provides an overview of the most valuable talents in the world of soccer, revealing the names of players who have not only demonstrated excellent performances on the field, but are also considered valuable investments in the soccer landscape. Players can sometimes be overestimated or underestimated. This data is important because it takes into account not only performance but also a player's age. Younger players with important statistics will command high market prices.
 \\The first proposed query shows the current situation of market values for the players in the dataset ordered by their value in a descendent way.
 \begin{verbatim}
-    db.players.find({}, { name: 1, market_value_in_eur: 1 }).sort({ market_value_in_eur: -1 }).limit(10)
+db.players.find({},{ name: 1, market_value_in_eur: 1 }).sort(
+    { market_value_in_eur: -1 }).limit(10)
 \end{verbatim}
 \begin{figure}[htbp]
     \centering
@@ -776,7 +780,9 @@ The second query shows the best valuation for each player during its career and 
 \begin{verbatim}
     db.players.aggregate([
   { $unwind: "$valuations" },
-  { $group: { _id: "$_id", name: { $first: "$name" }, maxMarketValue: { $max: "$valuations.market_value_in_eur" }, season: { $first: "$valuations.last_season" } } },
+  { $group: { _id: "$_id", name: { $first: "$name" }, maxMarketValue: 
+    { $max: "$valuations.market_value_in_eur" }, season: 
+        { $first: "$valuations.last_season" } } },
   { $sort: { maxMarketValue: -1 } }
 ])
 \end{verbatim}
@@ -787,9 +793,9 @@ The second query shows the best valuation for each player during its career and 
 \end{figure}
 
 \subsection{The cities where the most players were born}
-This query lists the cities that produced the most players. It uses the $group operation to group players by their city of birth, counts the number of players for each city with $sum, and then sorts the results descendingly to show which cities generated the most football talents.
+This query lists the cities that produced the most players. It uses the \$group operation to group players by their city of birth, counts the number of players for each city with \$sum, and then sorts the results descendingly to show which cities generated the most football talents.
 \begin{verbatim}
-    db.players.aggregate([
+db.players.aggregate([
   { $group: { _id: "$city_of_birth", numberOfPlayers: { $sum: 1 } } },
   { $sort: { numberOfPlayers: -1 } }
 ])
@@ -806,7 +812,9 @@ This query aims to identify the center forwards (position "A") with the highest 
     db.players.aggregate([
         { $match: { position: "A" } },
         { $unwind: "$appearances" },
-        { $group: { _id: "$_id", name: { $first: "$name" }, totalGoals: { $sum: "$appearances.goals" }, marketValue: { $first: "$market_value_in_eur" } } },
+        { $group: { _id: "$_id", name: { $first: "$name" }, totalGoals: 
+            { $sum: "$appearances.goals" }, marketValue: 
+                { $first: "$market_value_in_eur" } } },
         { $sort: { marketValue: -1, totalGoals: -1 } }
       ])      
 \end{verbatim}
@@ -822,7 +830,9 @@ The query focuses on midfielders (position "M") with a market value lower and up
         { $match: { position: "M", market_value_in_eur:
          { $gte: 10000000, $lte: 20000000 } } },
         { $unwind: "$appearances" },
-        { $group: { _id: "$_id", name: { $first: "$name" }, totalGoals: { $sum: "$appearances.goals" }, totalAssists: { $sum: "$appearances.assists" } } },
+        { $group: { _id: "$_id", name: { $first: "$name" }, totalGoals: 
+            { $sum: "$appearances.goals" }, totalAssists: 
+                { $sum: "$appearances.assists" } } },
         { $sort: { totalGoals: -1, totalAssists: -1 } }
       ])    
       
@@ -884,7 +894,9 @@ This query identifies the defenders who received the highest total number of car
     db.players.aggregate([
   { $match: { position: "D" } },
   { $unwind: "$appearances" },
-  { $group: { _id: "$_id", name: { $first: "$name" }, totalCards: { $sum: { $add: ["$appearances.yellow_cards", "$appearances.red_cards"] } } } },
+  { $group: { _id: "$_id", name: { $first: "$name" }, totalCards: 
+  { $sum: { $add: 
+    ["$appearances.yellow_cards", "$appearances.red_cards"] } } } },
   { $sort: { totalCards: -1 } }
 ])
 \end{verbatim}
@@ -900,8 +912,11 @@ This query identifies the nations that produce the players with the highest mark
 \begin{verbatim}
     db.players.aggregate([
   { $unwind: "$valuations" },
-  { $group: { _id: "$_id", country: { $first: "$country_of_citizenship" }, maxMarketValue: { $max: "$valuations.market_value_in_eur" } } },
-  { $group: { _id: "$country", averageMaxMarketValue: { $avg: "$maxMarketValue" } } },
+  { $group: { _id: "$_id", country: 
+    { $first: "$country_of_citizenship" }, maxMarketValue:
+     { $max: "$valuations.market_value_in_eur" } } },
+  { $group: { _id: "$country", averageMaxMarketValue: 
+    { $avg: "$maxMarketValue" } } },
   { $sort: { averageMaxMarketValue: -1 } }
 ])
 \end{verbatim}
@@ -916,7 +931,8 @@ This query identifies the nation that produces the players with the most goals. 
 \begin{verbatim}
     db.players.aggregate([
   { $unwind: "$appearances" },
-  { $group: { _id: "$country_of_citizenship", totalGoals: { $sum: "$appearances.goals" } } },
+  { $group: { _id: "$country_of_citizenship", totalGoals: 
+    { $sum: "$appearances.goals" } } },
   { $sort: { totalGoals: -1 } }
 ])
 \end{verbatim}
@@ -934,7 +950,8 @@ This query calculates the average market value of the players for each club. It 
 \begin{verbatim}
     db.players.aggregate([
   { $unwind: "$valuations" },
-  { $group: { _id: "$current_club_name", averageMarketValue: { $avg: "$valuations.market_value_in_eur" } } },
+  { $group: { _id: "$current_club_name", averageMarketValue: 
+    { $avg: "$valuations.market_value_in_eur" } } },
   { $sort: { averageMarketValue: -1 } }
 ])
 
@@ -954,7 +971,9 @@ This query identifies free agent players with the best goal scoring statistics i
     db.players.aggregate([
   { $match: { current_club_name: null } },
   { $unwind: "$appearances" },
-  { $group: { _id: "$_id", name: { $first: "$name" }, totalGoals: { $sum: "$appearances.goals" }, lastSeason: { $max: "$appearances.last_season" } } },
+  { $group: { _id: "$_id", name: { $first: "$name" }, totalGoals: 
+    { $sum: "$appearances.goals" }, lastSeason: 
+        { $max: "$appearances.last_season" } } },
   { $sort: { totalGoals: -1 } }
 ])
 
@@ -1124,8 +1143,170 @@ To get the French players with the highest minutes-to-apperance ratio, the query
     \caption{The French players with the highest minutes ratio Query Execution}
 \end{figure}
 
-\section{Competitions Collection PG 47}
+\section{Competitions Collection }
+\subsection{Most Followed Matches}
+The query selects the games from the 'competitions' collection that had the most spectators. It uses the 'attendance' field within the array of 'games' for each competition. The goal is to identify those games that attracted the most significant audience attention, an indicator of the match's popularity or importance. 
+The first query returns the most followed matches among all the competitions.
+\begin{verbatim}
+    db.competitions.aggregate([
+  { $unwind: "$games" },
+  { $project: 
+    { "game_id": "$games.game_id", "attendance": "$games.attendance" } },
+  { $sort: { "attendance": -1 } },
+  { $limit: 5 }
+])
+\end{verbatim}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=1]{Images/Queries/Competitions/most_followed_games/mfg.png}
+    \caption{Most Followed Matches First Query Execution}
+\end{figure}
+The second query returns the most followed matches filtering by competition. It is inserted a placeholder "$<$competition\_id$>$" to search the preferred league. In the picture competition\_id is equal to CL (Champions League)
+\begin{verbatim}
+    db.competitions.aggregate([
+        { $match: { "competition_id": "<competition_id>" } },
+        { $unwind: "$games" },
+        { $project: { "game_id": 
+            "$games.game_id", "attendance": "$games.attendance", "competition_id": 1 } },
+        { $sort: { "attendance": -1 } },
+        { $limit: 5 }
+      ])           
+\end{verbatim}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=1]{Images/Queries/Competitions/most_followed_games/mfgcl.png}
+    \caption{Most Followed Matches Second Query Execution}
+\end{figure}
 
+\subsection{Most Wins at home by a club MANCA FOTOOOO}
+These queries return the clubs who have conducted more wins at home. It could also be filtered by competition id.
+\begin{verbatim}
+    db.competitions.aggregate([
+  { $unwind: "$games" },
+  { $group: { _id: "$games.home_club_name", homeWins: 
+    { $sum: { $cond: [
+        { $gt: ["$games.home_club_goals", "$games.away_club_goals"] }, 1, 0] } } } },
+  { $sort: { homeWins: -1 } },
+  { $limit: 5 }
+])
+\end{verbatim}
+\begin{figure}[htbp]
+    \centering
+    \caption{Most Followed Matches Second Query Execution}
+\end{figure}
+\begin{verbatim}
+    db.competitions.aggregate([
+        { $match: { "competition_id": "<competition_id>" } },
+        { $unwind: "$games" },
+        { $group: { _id: "$games.home_club_name", homeWins: 
+            { $sum: { $cond: [{ $gt: 
+                ["$games.home_club_goals", "$games.away_club_goals"] }, 1, 0] } } } },
+        { $sort: { homeWins: -1 } },
+        { $limit: 5 }
+      ]) 
+\end{verbatim}
+
+
+
+\subsection{The most successful coaches}
+This query shows the most important coaches ordered by win. This query was very difficult because the names of the coaches are present inside games, but in games there are 2 managers: one of the home club and one of the away club.\\
+To exclude null values from the final result and not count unknown managers, you can modify the query by adding a condition to discard documents where the manager name is null before performing the final aggregation.The creation of the query followed these steps:
+\begin{enumerate}
+    \item \$unwind: Breaks down the array games.
+    \item \$project: Creates fields representing home and away wins and manager names.
+    \item \$group: Group at the collection level to create arrays with home and away manager wins.
+    \item \$project: Concatenates arrays of home and away wins.
+    \item \$unwind: Breaks down the concatenated array.
+    \item \$match: Adds a filter to discard records where the manager name is null.
+    \item \$group: Groups by manager name, summing wins and discarding null managers.
+    \item \$sort: Sorts managers by total number of wins in a descending manner.
+    \item \$match: This final step excludes documents with \_id null from the result set, removing unknown managers.
+\end{enumerate}
+\begin{verbatim}
+    db.competitions.aggregate([
+        { $unwind: "$games" },
+        { $project: {
+          homeManager: "$games.home_club_manager_name",
+          awayManager: "$games.away_club_manager_name",
+          homeWin: { $cond: { if: 
+          { $gt: [ "$games.home_club_goals", "$games.away_club_goals" ] }, 
+            then: 1, else: 0 } },
+          awayWin: { $cond: { if: 
+          { $gt: [ "$games.away_club_goals", "$games.home_club_goals" ] }, 
+            then: 1, else: 0 } }
+        }},
+        { $group: {
+          _id: null,
+          homeManagerWins: { $push: { k: "$homeManager", v: "$homeWin" } },
+          awayManagerWins: { $push: { k: "$awayManager", v: "$awayWin" } }
+        }},
+        { $project: {managerWins: 
+            { $concatArrays: [ "$homeManagerWins", "$awayManagerWins" ] }
+        }},
+        { $unwind: "$managerWins" },
+        { $match: { "managerWins.k": { $ne: null } } }, // esclude i manager non noti
+        { $group: {
+          _id: "$managerWins.k",
+          totalWins: { $sum: "$managerWins.v" }
+        }},
+        { $sort: { totalWins: -1 } },
+        { $match: { _id: { $ne: null } } } // esclude i risultati dove il nome del manager è null
+      ])
+      
+\end{verbatim}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.8]{Images/Queries/Competitions/most_succesful_coaches/msc.png}
+    \caption{The most successful coaches Query Execution}
+\end{figure}
+
+\section{Clubs Collection}
+\subsection{Clubs with more late goals}
+The query runs through the 'clubs' collection, expands the 'games' array and its 'events' for each club, then filtering out events that are goals scored beyond the 80th minute. It then groups the results by 'club\_code' and counts the late goals for each club, sorting the clubs by the number of these goals.
+\begin{verbatim}
+    db.clubs.aggregate([
+  { $unwind: "$games" },
+  { $unwind: "$games.events" },
+  { $match: { "games.events.type": "Goals", "games.events.minute": { $gt: 80 } } },
+  { $group: { _id: "$club_code", lateGoals: { $sum: 1 } } },
+  { $sort: { lateGoals: -1 } }
+])
+\end{verbatim}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.8]{Images/Queries/Clubs/late_goals_per_club/lgpc.png}
+    \caption{The most successful coaches Query Execution}
+\end{figure}
+\subsection{Clubs with most foreign players}
+The query selects all clubs and projects only the 'club\_code' and the 'foreigners\_percentage,' which is the percentage of foreign players in the team. It then sorts the clubs from highest to lowest percentage, to show which clubs have the largest proportion of foreign players in their roster.
+\begin{verbatim}
+    db.clubs.find({}, 
+    {"club_code": 1, "foreigners_percentage":1}).sort(
+        { foreigners_percentage: -1 }).limit(5)
+\end{verbatim}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.8]{Images/Queries/Clubs/Foreign_percentages/fp.png}
+    \caption{Clubs with most foreign players Query Execution}
+\end{figure}
+
+\subsection{Clubs with more wins at home}
+This query identifies clubs that have scored the most goals in home games. After expanding the array games, it filters for games played at home and sums the goals scored in these games. Finally, it sorts the clubs by the total number of goals scored at home.
+\begin{verbatim}
+    db.clubs.aggregate([
+  { $unwind: "$games" },
+  { $match: { "games.hosting": "H" } },
+  { $group: { _id: "$club_code", homeWins: 
+    { $sum: { $cond: [{ $eq: ["$games.is_win", 1] }, 1, 0] } } } },
+  { $sort: { homeWins: -1 } }
+])
+\end{verbatim}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.8]{Images/Queries/Clubs/more_wins_at_home/mwat.png}
+    \caption{Clubs with more wins at home Query Execution}
+\end{figure}
 
 %-------------------------------------------------------------------------
 %	APPENDICES
