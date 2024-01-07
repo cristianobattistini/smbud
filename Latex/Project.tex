@@ -670,17 +670,17 @@ The most coveted record or award is surely to become the top scorer in a competi
 The query starts with \$unwind to break down the appearances array of each player document, then filters the appearances for a given competition\_id. Next, \$group aggregates the data by player, adding up the goals scored and capturing the player's name. Finally, \$sort and \$limit sort the players from highest to lowest number of goals and limit the output to the top 10. 
 \begin{verbatim}
     db.players.aggregate([
-  { $unwind: "$appearances" },
-  { $match: { "appearances.competition_id": "<competition_id>" } },
-  {
-    $group: {
-      _id: "$_id",
-      totalGoals: { $sum: "$appearances.goals" },
-      playerName: { $first: "$name" } // Assumi che 'name' sia il campo che contiene il nome del giocatore
-      }
-      },
-      { $sort: { totalGoals: -1 } },
-      { $limit: 10 }
+      { $unwind: "$appearances" },
+      { $match: { "appearances.competition_id": "<competition_id>" } },
+      {
+        $group: {
+          _id: "$_id",
+          totalGoals: { $sum: "$appearances.goals" },
+          playerName: { $first: "$name" } // Assumi che 'name' sia il campo che contiene il nome del giocatore
+          }
+          },
+          { $sort: { totalGoals: -1 } },
+          { $limit: 10 }
     ])
     
 \end{verbatim}
@@ -705,7 +705,7 @@ The query starts with \$unwind to break down the appearances array of each playe
 Making an assist means putting a teammate in a position to put the ball in the net. This is also a very important statistic, often peculiar to side or full-back defenders, midfielders or wingers. The query starts with \$unwind to break down the appearances array of each player document, then filters the appearances for a given competition\_id. Next, \$group aggregates the data by player, adding up the assists and capturing the player's name. Finally, there is a descending sort and a limit for the best 10 assist-men.
 
 \begin{verbatim}
-    db.players.aggregate([
+db.players.aggregate([
   { $unwind: "$appearances" },
   { $match: { "appearances.competition_id": "<competition_id>" } },
   { 
@@ -731,13 +731,13 @@ Making an assist means putting a teammate in a position to put the ball in the n
 There are also many players who make impetuousness and confrontation their strong point. The statistics on yellow cards say a lot about those players who exploit their physical strength, but because of this attitude are prone to committing fouls, punishable by yellow cards. The query starts with $unwind to break down the appearances array of each player document, then filters the appearances for a given competition_id. Next, $group aggregates the data by player, adding up the yellow cards taken and showing the player's name. 
 \begin{verbatim}
     db.players.aggregate([
-  { $unwind: "$appearances" },
-  { $match: { "appearances.competition_id": "<competition_id>" } },
-  { $group: { _id: "$_id", totalYellowCards: 
-  +{ $sum: "$appearances.yellow_cards" },  playerName: { $first: "$name" }  } },
-  { $sort: { totalYellowCards: -1 } },
-  { $limit: 10 }
-])
+      { $unwind: "$appearances" },
+      { $match: { "appearances.competition_id": "<competition_id>" } },
+      { $group: { _id: "$_id", totalYellowCards: 
+      +{ $sum: "$appearances.yellow_cards" },  playerName: { $first: "$name" }  } },
+      { $sort: { totalYellowCards: -1 } },
+      { $limit: 10 }
+    ])
 
 \end{verbatim}
 
@@ -751,13 +751,13 @@ There are also many players who make impetuousness and confrontation their stron
 In contrast to yellow cards, which can happen in the course of a match, getting a red card means, most of the time, having committed something serious, such as a bad foul, violent conduct or repeated protests to the referee. This statistic shows those players who struggle most to maintain control on the pitch and whose attitudes risk leaving the team one down. The query starts with $unwind to break down the appearances array of each player document, then filters the appearances for a given competition_id. Next, $group aggregates the data by player, adding up the red cards for each player. 
 \begin{verbatim}
     db.players.aggregate([
-  { $unwind: "$appearances" },
-  { $match: { "appearances.competition_id": "<competition_id>" } },
-  { $group: { _id: "$_id", totalRedCards: 
-  { $sum: "$appearances.red_cards" }, playerName: { $first: "$name" } } },
-  { $sort: { totalRedCards: -1 } },
-  { $limit: 10 }
-])
+      { $unwind: "$appearances" },
+      { $match: { "appearances.competition_id": "<competition_id>" } },
+      { $group: { _id: "$_id", totalRedCards: 
+      { $sum: "$appearances.red_cards" }, playerName: { $first: "$name" } } },
+      { $sort: { totalRedCards: -1 } },
+      { $limit: 10 }
+    ])
 \end{verbatim}
 \begin{figure}[htbp]
     \centering
@@ -796,12 +796,12 @@ db.players.find({},{ name: 1, market_value_in_eur: 1 }).sort(
 The second query shows the best valuation for each player during its career and then orders these values in a descendent way.
 \begin{verbatim}
     db.players.aggregate([
-  { $unwind: "$valuations" },
-  { $group: { _id: "$_id", name: { $first: "$name" }, maxMarketValue: 
-    { $max: "$valuations.market_value_in_eur" }, season: 
-        { $first: "$valuations.last_season" } } },
-  { $sort: { maxMarketValue: -1 } }
-])
+      { $unwind: "$valuations" },
+      { $group: { _id: "$_id", name: { $first: "$name" }, maxMarketValue: 
+        { $max: "$valuations.market_value_in_eur" }, season: 
+            { $first: "$valuations.last_season" } } },
+      { $sort: { maxMarketValue: -1 } }
+    ])
 \end{verbatim}
 \begin{figure}[htbp]
     \centering
@@ -890,10 +890,10 @@ This aggregation query lists all players who appeared in a specific match, ident
 
 \begin{verbatim}
     db.players.aggregate([
-  { $unwind: "$appearances" },
-  { $match: { "appearances.game_id": 2469936 } },
-  { $project:  { valuations: 0 } }
-])
+      { $unwind: "$appearances" },
+      { $match: { "appearances.game_id": 2469936 } },
+      { $project:  { valuations: 0 } }
+    ])
 \end{verbatim}
 \begin{figure}[htbp]
     \centering
@@ -905,13 +905,13 @@ This aggregation query lists all players who appeared in a specific match, ident
 This query identifies the defenders who received the highest total number of cards, summing yellow and red cards. After filtering players by defensive position, the query breaks down the array of appearances, aggregates the total number of red and yellow cards per player, and finally sorts the results in descending order to display the most "undisciplined" defenders.
 \begin{verbatim}
     db.players.aggregate([
-  { $match: { position: "D" } },
-  { $unwind: "$appearances" },
-  { $group: { _id: "$_id", name: { $first: "$name" }, totalCards: 
-  { $sum: { $add: 
-    ["$appearances.yellow_cards", "$appearances.red_cards"] } } } },
-  { $sort: { totalCards: -1 } }
-])
+      { $match: { position: "D" } },
+      { $unwind: "$appearances" },
+      { $group: { _id: "$_id", name: { $first: "$name" }, totalCards: 
+      { $sum: { $add: 
+        ["$appearances.yellow_cards", "$appearances.red_cards"] } } } },
+      { $sort: { totalCards: -1 } }
+    ])
 \end{verbatim}
 
 \begin{figure}[htbp]
@@ -924,14 +924,14 @@ This query identifies the defenders who received the highest total number of car
 This query identifies the nations that produce the players with the highest market values by analyzing the maximum market value achieved by each player. After decomposing the valuations array, it aggregates the maximum market value for each player and then averages these maximum values by nation, sorting the nations by this average.
 \begin{verbatim}
     db.players.aggregate([
-  { $unwind: "$valuations" },
-  { $group: { _id: "$_id", country: 
-    { $first: "$country_of_citizenship" }, maxMarketValue:
-     { $max: "$valuations.market_value_in_eur" } } },
-  { $group: { _id: "$country", averageMaxMarketValue: 
-    { $avg: "$maxMarketValue" } } },
-  { $sort: { averageMaxMarketValue: -1 } }
-])
+      { $unwind: "$valuations" },
+      { $group: { _id: "$_id", country: 
+        { $first: "$country_of_citizenship" }, maxMarketValue:
+        { $max: "$valuations.market_value_in_eur" } } },
+      { $group: { _id: "$country", averageMaxMarketValue: 
+        { $avg: "$maxMarketValue" } } },
+      { $sort: { averageMaxMarketValue: -1 } }
+    ])
 \end{verbatim}
 \begin{figure}[htbp]
     \centering
@@ -943,11 +943,11 @@ This query identifies the nations that produce the players with the highest mark
 This query identifies the nation that produces the players with the most goals. It first breaks down the array of each player's appearances, then groups the players by nation and adds up the goals scored. Finally, it sorts the nations by total number of goals to find out which nation produced the best scorers.
 \begin{verbatim}
     db.players.aggregate([
-  { $unwind: "$appearances" },
-  { $group: { _id: "$country_of_citizenship", totalGoals: 
-    { $sum: "$appearances.goals" } } },
-  { $sort: { totalGoals: -1 } }
-])
+      { $unwind: "$appearances" },
+      { $group: { _id: "$country_of_citizenship", totalGoals: 
+        { $sum: "$appearances.goals" } } },
+      { $sort: { totalGoals: -1 } }
+    ])
 \end{verbatim}
 
 \begin{figure}[htbp]
@@ -962,11 +962,11 @@ This query calculates the average market value of the players for each club. It 
 
 \begin{verbatim}
     db.players.aggregate([
-  { $unwind: "$valuations" },
-  { $group: { _id: "$current_club_name", averageMarketValue: 
-    { $avg: "$valuations.market_value_in_eur" } } },
-  { $sort: { averageMarketValue: -1 } }
-])
+      { $unwind: "$valuations" },
+      { $group: { _id: "$current_club_name", averageMarketValue: 
+        { $avg: "$valuations.market_value_in_eur" } } },
+      { $sort: { averageMarketValue: -1 } }
+    ])
 
 \end{verbatim}
 
@@ -982,13 +982,13 @@ This query identifies free agent players with the best goal scoring statistics i
 
 \begin{verbatim}
     db.players.aggregate([
-  { $match: { current_club_name: null } },
-  { $unwind: "$appearances" },
-  { $group: { _id: "$_id", name: { $first: "$name" }, totalGoals: 
-    { $sum: "$appearances.goals" }, lastSeason: 
-        { $max: "$appearances.last_season" } } },
-  { $sort: { totalGoals: -1 } }
-])
+      { $match: { current_club_name: null } },
+      { $unwind: "$appearances" },
+      { $group: { _id: "$_id", name: { $first: "$name" }, totalGoals: 
+        { $sum: "$appearances.goals" }, lastSeason: 
+            { $max: "$appearances.last_season" } } },
+      { $sort: { totalGoals: -1 } }
+    ])
 
 \end{verbatim}
 
@@ -1004,10 +1004,10 @@ To calculate the total number of goals scored by Cristiano Ronaldo, the query sh
 Obviously, by changing names and searching for another player, one can see how many goals the requested player has scored.
 \begin{verbatim}
     db.players.aggregate([
-  { $match: { name: "Cristiano Ronaldo" } },
-  { $unwind: "$appearances" },
-  { $group: { _id: "$_id", totalGoals: { $sum: "$appearances.goals" } } }
-])
+      { $match: { name: "Cristiano Ronaldo" } },
+      { $unwind: "$appearances" },
+      { $group: { _id: "$_id", totalGoals: { $sum: "$appearances.goals" } } }
+    ])
 \end{verbatim}
 \begin{figure}[htbp]
     \centering
@@ -1031,13 +1031,13 @@ To find the youngest player in the database, the query sorts all players by thei
 This query identifies the forwards who had the most appearances in games without scoring goals. It first filters by position, identifying forwards, then breaks down the array of appearances. With an aggregation, it counts the number of games in which the player did not score, and finally sorts the results to show who had the most appearances without scoring goals. 
 \begin{verbatim}
     db.players.aggregate([
-  { $match: { sub_position: "CF" } },
-  { $unwind: "$appearances" },
-  { $group: { _id: "$_id", name: { $first: "$name" },
-    appearancesWithoutGoals: 
-        { $sum: { $cond: [{ $eq: ["$appearances.goals", 0] }, 1, 0] } } } },
-  { $sort: { appearancesWithoutGoals: -1 } }
-])
+      { $match: { sub_position: "CF" } },
+      { $unwind: "$appearances" },
+      { $group: { _id: "$_id", name: { $first: "$name" },
+        appearancesWithoutGoals: 
+            { $sum: { $cond: [{ $eq: ["$appearances.goals", 0] }, 1, 0] } } } },
+      { $sort: { appearancesWithoutGoals: -1 } }
+    ])
 \end{verbatim}
 
 \begin{figure}[htbp]
@@ -1050,9 +1050,9 @@ This query identifies the forwards who had the most appearances in games without
 Within the 'players' collection SI first filters by position, selecting only players classified as goalkeepers (e.g., position "G" for goalkeeper), then groups the data to calculate the average height.
 \begin{verbatim}
     db.players.aggregate([
-  { $match: { position: "G" } },  
-  { $group: { _id: null, averageHeight: { $avg: "$height_in_cm" } } }
-])
+      { $match: { position: "G" } },  
+      { $group: { _id: null, averageHeight: { $avg: "$height_in_cm" } } }
+    ])
 \end{verbatim}
 
 \begin{figure}[htbp]
@@ -1066,14 +1066,14 @@ This query identifies the agent of the player with the highest market value reco
 
 \begin{verbatim}
     db.players.find(
-  { market_value_in_eur: { $exists: true, $ne: null } },
-  { name: 1, agent_name: 1, market_value_in_eur: 1 }
-).sort({ market_value_in_eur: -1 }).limit(1)
+      { market_value_in_eur: { $exists: true, $ne: null } },
+      { name: 1, agent_name: 1, market_value_in_eur: 1 }
+    ).sort({ market_value_in_eur: -1 }).limit(1)
 \end{verbatim}
 \newpage
 \begin{figure}[htbp]
     \centering
-    \includegraphics[scale=0.8]{Images/Queries/Average_market_value_club/amvc.png}
+    \includegraphics[scale=0.8]{Images/Queries/Most_valuable_player_agent/mvpa.png}
     \caption{Agent with the most valuable player Query Execution}
 \end{figure}
 However, in this specific case, the result will show "null" for the agent\_name field indicating that there is no registered agent, which may correspond to situations where a family member, such as the mother in Mbappé's case, assists the player in contractual matters.
@@ -1094,23 +1094,23 @@ The statistics are important only for players with more than 50 appearances.
 
 \begin{verbatim}
     db.players.aggregate([
-  { $match: { country_of_citizenship: "Italy" } },
-  { $unwind: "$appearances" },
-  { $group: { 
-      _id: "$_id", 
-      name: { $first: "$name" }, 
-      totalGoals: { $sum: "$appearances.goals" }, 
-      totalAppearances: { $sum: 1 }
-    } 
-  },
-  { $match: { totalAppearances: { $gte: 50 } } },
-  { $project: { 
-      name: 1, 
-      goalRatio: { $divide: [ "$totalGoals", "$totalAppearances" ] }
-    } 
-  },
-  { $sort: { goalRatio: -1 } }
-])
+      { $match: { country_of_citizenship: "Italy" } },
+      { $unwind: "$appearances" },
+      { $group: { 
+          _id: "$_id", 
+          name: { $first: "$name" }, 
+          totalGoals: { $sum: "$appearances.goals" }, 
+          totalAppearances: { $sum: 1 }
+        } 
+      },
+      { $match: { totalAppearances: { $gte: 50 } } },
+      { $project: { 
+          name: 1, 
+          goalRatio: { $divide: [ "$totalGoals", "$totalAppearances" ] }
+        } 
+      },
+      { $sort: { goalRatio: -1 } }
+    ])
 \end{verbatim}
 
 \begin{figure}[htbp]
@@ -1133,23 +1133,23 @@ To get the French players with the highest minutes-to-apperance ratio, the query
 \newpage
 \begin{verbatim}
     db.players.aggregate([
-  { $match: { country_of_citizenship: "France" } },
-  { $unwind: "$appearances" },
-  { $group: { 
-      _id: "$_id", 
-      name: { $first: "$name" }, 
-      totaMinutes: { $sum: "$appearances.minutes_played" }, 
-      totalAppearances: { $sum: 1 }
-    } 
-  },
-  { $match: { totalAppearances: { $gte: 50 } } },
-  { $project: { 
-      name: 1, 
-      minutesRatio: { $divide: [ "$totaMinutes", "$totalAppearances" ] }
-    } 
-  },
-  { $sort: { minutesRatio: -1 } }
-])
+      { $match: { country_of_citizenship: "France" } },
+      { $unwind: "$appearances" },
+      { $group: { 
+          _id: "$_id", 
+          name: { $first: "$name" }, 
+          totaMinutes: { $sum: "$appearances.minutes_played" }, 
+          totalAppearances: { $sum: 1 }
+        } 
+      },
+      { $match: { totalAppearances: { $gte: 50 } } },
+      { $project: { 
+          name: 1, 
+          minutesRatio: { $divide: [ "$totaMinutes", "$totalAppearances" ] }
+        } 
+      },
+      { $sort: { minutesRatio: -1 } }
+    ])
 \end{verbatim}
 \begin{figure}[htbp]
     \centering
@@ -1230,7 +1230,7 @@ db.competitions.aggregate([
 \subsection{Clubs with more late goals}
 The query runs through the 'clubs' collection, expands the 'games' array and its 'events' for each club, then filtering out events that are goals scored beyond the 80th minute. It then groups the results by 'club\_code' and counts the late goals for each club, sorting the clubs by the number of these goals.
 \begin{verbatim}
-    db.clubs.aggregate([
+db.clubs.aggregate([
   { $unwind: "$games" },
   { $unwind: "$games.events" },
   { $match: { "games.events.type": "Goals", "games.events.minute":{ $gt: 80 } } },
@@ -1260,7 +1260,7 @@ The query selects all clubs and projects only the 'club\_code' and the 'foreigne
 \subsection{Clubs with more wins at home}
 This query identifies clubs that have scored the most goals in home games. After expanding the array games, it filters for games played at home and sums the goals scored in these games. Finally, it sorts the clubs by the total number of goals scored at home.
 \begin{verbatim}
-    db.clubs.aggregate([
+db.clubs.aggregate([
   { $unwind: "$games" },
   { $match: { "games.hosting": "H" } },
   { $group: { _id: "$club_code", homeWins: 
