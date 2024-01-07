@@ -1027,7 +1027,7 @@ To find the youngest player in the database, the query sorts all players by thei
     \caption{The youngest player Query Execution}
 \end{figure}
 
-\newpage
+
 \subsection{Average height of goalkeepers}
 Within the 'players' collection the query first filters by position, selecting only players classified as goalkeepers (e.g., position "G" for goalkeeper), then groups the data to calculate the average height.
 \begin{verbatim}
@@ -1052,7 +1052,7 @@ This query identifies the agent of the player with the highest market value reco
       { name: 1, agent_name: 1, market_value_in_eur: 1 }
     ).sort({ market_value_in_eur: -1 }).limit(1)
 \end{verbatim}
-\newpage
+
 \begin{figure}[htbp]
     \centering
     \includegraphics[scale=0.8]{Images/Queries/Most_valuable_player_agent/mvpa.png}
