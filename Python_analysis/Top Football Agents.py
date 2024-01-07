@@ -1,15 +1,7 @@
-"""
-python -m venv myenv                                                                                                                               
-source myenv/bin/activate
-pip install pymongo matplotlib
-"""
-
-
 import matplotlib.pyplot as plt
 import pymongo
 import numpy as np
 from collections import defaultdict
-import copy
 
 client = pymongo.MongoClient("mongodb://localhost:27017/")
 db = client.football
