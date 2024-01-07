@@ -1047,7 +1047,7 @@ This query identifies the forwards who had the most appearances in games without
 \end{figure}
 \newpage
 \subsection{Average height of goalkeepers}
-Within the 'players' collection SI first filters by position, selecting only players classified as goalkeepers (e.g., position "G" for goalkeeper), then groups the data to calculate the average height.
+Within the 'players' collection the query first filters by position, selecting only players classified as goalkeepers (e.g., position "G" for goalkeeper), then groups the data to calculate the average height.
 \begin{verbatim}
     db.players.aggregate([
       { $match: { position: "G" } },  
