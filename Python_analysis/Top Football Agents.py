@@ -103,5 +103,5 @@ for range, player_count in grouped_players.items():
         summary_text += f"- {range:<20} : {player_count:<5} Players {percentage:<6.2f}% of Total Player: \n"
     else: break
     i+=1
-
 print(summary_text)
+

@@ -646,6 +646,7 @@ The competitions analyzed will include the Champions League and the major nation
 
 \section{Players Collection}
 \subsection{Top Football Agents}
+\label{sec:Top Football Agents}
 This query lists agents according to the number of players they represent in the database, ordered from highest to lowest, clearly showing the most influential agents, or companies, in the world of football. In recent years, the figure of the agent or company, which looks after the interests of players, especially in terms of contracts, has had an enormous increase in power. \\
 The agents or the most important companies manipulate the market trying to profit for the player but also for them: every transfer or contract in fact provides compensation for the agents.\\
 In recent years, many agents have played the big game, cornering many clubs and earning huge amounts of money.\\
@@ -1263,6 +1264,86 @@ db.clubs.aggregate([
 \cleardoublepage
 \addtocontents{toc}{\vspace{2em}} % Add a gap in the Contents, for aesthetics
 \appendix
+
+\chapter{Extra}
+\section{Top Football Agents Analysis}
+In this section, we will analyze the documents obtained from the query described in (\ref{sec:Top Football Agents}). We will divide them into clusters to examine the distribution of the number of players in relation to those owned by the group, by category, and we will also analyze the impact that the 10 agents with the most players will have on the total number of players.
+\subsection{Result of Analysis}
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[scale=0.27]{Images/Top Football Agents Extra/Histogram.png}
+\end{figure}
+\newpage
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[scale=0.4]{Images/Top Football Agents Extra/pie_chart.png}
+\end{figure}
+\begin{verbatim}
+Summary of Agent and Player Distribution:
+
+Percentage Distribution of Aget by group:
+- Top 10 Category  10    Agents
+- 80-89  Category: 2     Agents
+- 70-79  Category: 2     Agents
+- 60-69  Category: 5     Agents
+- 50-59  Category: 5     Agents
+- 40-49  Category: 17    Agents
+- 30-39  Category: 30    Agents
+- 20-29  Category: 45    Agents
+- 15-19  Category: 59    Agents
+- 10-14  Category: 122   Agents
+- 9      Category: 41    Agents
+- 8      Category: 60    Agents
+- 7      Category: 73    Agents
+- 6      Category: 87    Agents
+- 5      Category: 120   Agents
+- 4      Category: 162   Agents
+- 3      Category: 260   Agents
+- 2      Category: 443   Agents
+- 1      Category: 974   Agents
+
+Percentage Distribution of player by Agent group:
+- Top 10 Category: 2098  Players 15.00 % of Total Player: 
+- 80-89  Category: 163   Players 1.17  % of Total Player: 
+- 70-79  Category: 154   Players 1.10  % of Total Player: 
+- 60-69  Category: 314   Players 2.24  % of Total Player: 
+- 50-59  Category: 269   Players 1.92  % of Total Player: 
+- 40-49  Category: 747   Players 5.34  % of Total Player: 
+- 30-39  Category: 1006  Players 7.19  % of Total Player: 
+- 20-29  Category: 1065  Players 7.61  % of Total Player: 
+- 15-19  Category: 995   Players 7.11  % of Total Player: 
+- 10-14  Category: 1406  Players 10.05 % of Total Player: 
+- 9      Category: 369   Players 2.64  % of Total Player: 
+- 8      Category: 480   Players 3.43  % of Total Player: 
+- 7      Category: 511   Players 3.65  % of Total Player: 
+- 6      Category: 522   Players 3.73  % of Total Player: 
+- 5      Category: 600   Players 4.29  % of Total Player: 
+- 4      Category: 648   Players 4.63  % of Total Player: 
+- 3      Category: 780   Players 5.58  % of Total Player: 
+- 2      Category: 886   Players 6.33  % of Total Player: 
+- 1      Category: 974   Players 6.96  % of Total Player: 
+
+ Top 10 Agents (Total: 15.00%):
+- Wasserman            : 407   Players 2.91  % of Total Player: 
+- CAA Stellar          : 328   Players 2.35  % of Total Player: 
+- ProStar              : 315   Players 2.25  % of Total Player: 
+- CAA Base Ltd         : 222   Players 1.59  % of Total Player: 
+- Unique Sports Group  : 198   Players 1.42  % of Total Player: 
+- YOU FIRST            : 158   Players 1.13  % of Total Player: 
+- Promoesport          : 132   Players 0.94  % of Total Player: 
+- SEG                  : 129   Players 0.92  % of Total Player: 
+- ROOF                 : 111   Players 0.79  % of Total Player: 
+- Gestifute            : 98    Players 0.70  % of Total Player: 
+\end{verbatim}
+\subsection{Python Code}
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[scale=0.5]{Images/Top Football Agents Extra/row_1_53.png}
+\end{figure}
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[scale=0.5]{Images/Top Football Agents Extra/row_54_106.png}
+\end{figure}
 \chapter{Appendix A}
 If you need to include an appendix to support the research in your thesis, you can place it at the end of the manuscript.
 An appendix contains supplementary material (figures, tables, data, codes, mathematical proofs, surveys, \dots)
