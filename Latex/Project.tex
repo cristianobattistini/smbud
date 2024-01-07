@@ -676,7 +676,7 @@ The query starts with \$unwind to break down the appearances array of each playe
         $group: {
           _id: "$_id",
           totalGoals: { $sum: "$appearances.goals" },
-          playerName: { $first: "$name" } // Assumi che 'name' sia il campo che contiene il nome del giocatore
+          playerName: { $first: "$name" }
           }
           },
           { $sort: { totalGoals: -1 } },
@@ -712,7 +712,7 @@ db.players.aggregate([
     $group: {
       _id: "$_id",
       totalAssists: { $sum: "$appearances.assists" },
-      playerName: { $first: "$name" } // Aggiunge il nome del giocatore
+      playerName: { $first: "$name" }  
     }
   },
   { $sort: { totalAssists: -1 } },
@@ -1000,7 +1000,7 @@ This query identifies free agent players with the best goal scoring statistics i
 
 
 \subsection{Cristiano Ronaldo (specific player) goals }
-To calculate the total number of goals scored by Cristiano Ronaldo, the query should first locate the specific player in the database (e.g., by name or unique ID). Next, it uses $unwind to decompose the array of appearances and $group to sum the goals scored. Finally, it presents the total goals.
+To calculate the total number of goals scored by Cristiano Ronaldo, the query should first locate the specific player in the database (e.g., by name or unique ID). Next, it uses \$unwind to decompose the array of appearances and \$group to sum the goals scored. Finally, it presents the total goals.
 Obviously, by changing names and searching for another player, one can see how many goals the requested player has scored.
 \begin{verbatim}
     db.players.aggregate([
