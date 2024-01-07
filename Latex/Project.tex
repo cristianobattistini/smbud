@@ -887,6 +887,7 @@ This query aims to identify right-backs (RB) and left-backs (LB) with the lowest
 \end{figure}
 
 \subsection{Players in a Specific Match}
+\label{sec:Players in a Specific Match}
 This aggregation query lists all players who appeared in a specific match, identified by the game\_ID. It begins by deconstructing the appearances array with \$unwind. Then, it filters the documents with \$match to only those where the game\_id within appearances matches the given ID. Finally, \$project is used to exclude the valuations field from the output, returning all other player details. This query is helpful for analyzing participation in particular games. In the case of this query the game:id chosen was 2469936 (of course it could be changed).
 
 \begin{verbatim}
@@ -1142,6 +1143,7 @@ To get the French players with the highest minutes-to-apperance ratio, the query
 \newpage
 \section{Competitions Collection }
 \subsection{Most Followed Matches}
+\label{sec:Most Followed Matches}
 The query selects the games from the 'competitions' collection that had the most spectators. It uses the 'attendance' field within the array of 'games' for each competition. The goal is to identify those games that attracted the most significant audience attention, an indicator of the match's popularity or importance. 
 The first query returns the most followed matches among all the competitions.
 \begin{verbatim}
@@ -1261,9 +1263,6 @@ db.clubs.aggregate([
 %	APPENDICES
 %-------------------------------------------------------------------------
 
-\cleardoublepage
-\addtocontents{toc}{\vspace{2em}} % Add a gap in the Contents, for aesthetics
-\appendix
 
 \chapter{Extra}
 \section{Top Football Agents Analysis}
@@ -1344,12 +1343,45 @@ Percentage Distribution of player by Agent group:
   \centering
   \includegraphics[scale=0.5]{Images/Top Football Agents Extra/row_54_106.png}
 \end{figure}
-\chapter{Appendix A}
-If you need to include an appendix to support the research in your thesis, you can place it at the end of the manuscript.
-An appendix contains supplementary material (figures, tables, data, codes, mathematical proofs, surveys, \dots)
-which supplement the main results contained in the previous chapters.
+\newpage
+\section{Players with the most appearances in the most-watched matches}
+In this section, we will analyze the documents obtained from the query in \ref{sec:Most Followed Matches}, to which we applied the query from \ref{sec:Players in a Specific Match}. This is to find all the players who participated in the top 100 most-followed matches. Following this, we will count the appearances of these players in these matches and extract the 15 players with the most appearances.
+\subsection{Result of Analysis}
+\begin{verbatim}
+The best 15 players by number of games played in the top 100 most-followed matches.
 
+Sergio Busquets           with 52  games (Club ID: 131 )
+Marc-André ter Stegen     with 50  games (Club ID: 131 )
+Gerard Piqué              with 48  games (Club ID: 131 )
+Lionel Messi              with 46  games (Club ID: 583 )
+Sergi Roberto             with 46  games (Club ID: 131 )
+Ivan Rakitic              with 45  games (Club ID: 368 )
+Luis Suárez               with 43  games (Club ID: 13  )
+Jordi Alba                with 42  games (Club ID: 131 )
+Andrés Iniesta            with 30  games (Club ID: 131 )
+Javier Mascherano         with 26  games (Club ID: 131 )
+Neymar                    with 25  games (Club ID: 583 )
+Ousmane Dembélé           with 19  games (Club ID: 131 )
+Philippe Coutinho         with 16  games (Club ID: 405 )
+Dani Alves                with 15  games (Club ID: 131 )
+Nélson Semedo             with 15  games (Club ID: 543 )
+\end{verbatim}
 
+From this analysis, it is evident that most of the players participating in these matches belong to the club with the ID 131.\\
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[scale=1]{Images/Best_Player_for_followed_games/club_131.png}
+\end{figure}\\
+\newpage
+Which is the club whose stadium has the most seating capacity in the dataset.\\
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[scale=0.4]{Images/Best_Player_for_followed_games/Best_seats.png}
+\end{figure}\\
+It can be concluded that although players have an impact on increasing the viewership of a match, the size of the stadium remains a significant factor in boosting the follower count of the matches.
+\cleardoublepage
+\addtocontents{toc}{\vspace{2em}} % Add a gap in the Contents, for aesthetics
+\appendix
 % LIST OF FIGURES
 \listoffigures
 
