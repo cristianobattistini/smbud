@@ -15,55 +15,40 @@ client = pymongo.MongoClient("mongodb://localhost:27017/")
 db = client.football
 collection = db.players
 
-# Definisci la query di aggregazione
+# Query Definition
 query = [
     { "$match": { "agent_name": { "$ne": None } } },
     { "$group": { "_id": "$agent_name", "numberOfPlayers": { "$sum": 1 } } },
     { "$sort": { "numberOfPlayers": -1 } }
 ]
-# Esecuzione della query
+# Query Execution
 result = collection.aggregate(query)
-result_2 = collection.aggregate(query) #clonazione
 
-# Estrazione dei primi 10 agenti e calcolo delle percentuali
-top_10_agents = []
-total_players_in_top_10 = 0
-for i, record in enumerate(result_2):
-    if i < 10:
-        top_10_agents.append(record)
-        total_players_in_top_10 += record['numberOfPlayers']
-    else:
-        break
-
-# Calcolo della percentuale totale di giocatori coperta dai primi 10 agenti
-total_players = collection.count_documents({})
-percent_players_in_top_10 = (total_players_in_top_10 / total_players) * 100
-
-# Creazione del testo per la percentuale di giocatori coperta dai primi 10 agenti
-summary_text_top_10 = "Percentuale di giocatori coperta dai primi 10 agenti:\n"
-summary_text_top_10 += f"Totale: {percent_players_in_top_10:.2f}% dei giocatori\n"
-
-# Elencazione testuale della percentuale dei giocatori coperta da ogni agente tra i primi 10
-for agent in top_10_agents:
-    agent_percent = (agent['numberOfPlayers'] / total_players) * 100
-    summary_text_top_10 += f"- Agente {agent['_id']}: {agent_percent:.2f}% dei giocatori, {agent['numberOfPlayers']} giocatori\n"
-
-# Stampa del testo riassuntivo
-print(summary_text_top_10)
-
-
-# Definizione dei range di raggruppamento
+# Range of visualization
 ranges = [(10, 14), (15, 19), (20, 29), (30, 39), (40, 49), (50, 59), (60, 69), (70, 79), (80, 89), (90, 99)]
+
 grouped_agents = defaultdict(int)
 grouped_players = defaultdict(int)
+sumOfTopTen = 0 #Sum of players of top ten agents
 
-# Raggruppamento degli agenti e calcolo dei giocatori per ogni range
-for record in result:
+#Agent clustering
+for i,record in enumerate(result):
     players = record['numberOfPlayers']
-    if players < 10 or players > 100:
+
+    if i < 10: #Top Ten
+        grouped_agents[record['_id']] += 1
+        grouped_players[record['_id']] += players
+        sumOfTopTen += players
+
+    elif players < 10: #Few players clustering
         grouped_agents[str(players)] += 1
         grouped_players[str(players)] += players
-    else:
+
+    elif players >= 100:#Many players clustering
+        grouped_agents["100+"] += 1
+        grouped_players["100+"] += players
+
+    else: #Range clustering
         for r in ranges:
             if r[0] <= players <= r[1]:
                 key = f'{r[0]}-{r[1]}'
@@ -71,40 +56,60 @@ for record in result:
                 grouped_players[key] += players
                 break
 
-# Preparazione dei dati per il grafico a barre
+# Histogram of number of agent per cluster
+            
 categories_bar = list(grouped_agents.keys())
 agents_count = list(grouped_agents.values())
 
-# Grafico a barre
 plt.figure(figsize=(12, 6))
 plt.bar(categories_bar, agents_count, color='blue')
-plt.xlabel('Numero di Giocatori per Agente (Range)')
-plt.ylabel('Numero di Agenti')
-plt.title('Numero di Agenti per Range di Giocatori')
+plt.xlabel(' Cluster Name')
+plt.ylabel('Agents Number')
+plt.title('Number of agents for each cluster')
 plt.xticks(rotation=90)
 plt.show()
 
-# Preparazione dei dati per il grafico a torta
+#Pie chart of the percentage of players on the total for each cluster
+
 categories_pie = list(grouped_players.keys())
 total_players_pie = list(grouped_players.values())
 
-# Grafico a torta
 plt.figure(figsize=(10, 10))
 plt.pie(total_players_pie, labels=categories_pie, autopct='%1.1f%%', startangle=140)
-plt.title('Distribuzione Percentuale dei Giocatori per Categoria di Agenti')
+plt.title('Percentage Distribution of Players by Agent Cluster')
 plt.show()
 
-# Creazione del testo riassuntivo
-summary_text = "Riassunto della Distribuzione degli Agenti e dei Giocatori:\n\n"
-summary_text += "Distribuzione degli Agenti per Range di Giocatori:\n"
+
+# Text Output and Top Ten Analysis
+
+summary_text = "Summary of Agent and Player Distribution:\n\n"
+summary_text += "Percentage Distribution of Aget by group:\n"
+
+summary_text += "- Top 10 : 10 Agents\n"
+i=0
 for range, count in grouped_agents.items():
-    summary_text += f"- {range} Giocatori: {count} agenti\n"
+    if(i>9):
+        summary_text += f"- {range:<6} Category: {count:<5} Agents\n"
+    i+=1
 
-summary_text += "\nDistribuzione Percentuale dei Giocatori per Categoria di Agenti:\n"
+summary_text += "\nPercentage Distribution of player by Agent group:\n"
 total_players_count = sum(grouped_players.values())
+sumOfTopTenPerc= (sumOfTopTen / total_players_count) * 100
+summary_text += f"- Top 10 Agents  : {sumOfTopTen:<5} Players {sumOfTopTenPerc:<6.2f}% of Total Player: \n"
+i=0
 for range, player_count in grouped_players.items():
-    percentage = (player_count / total_players_count) * 100
-    summary_text += f"- {range} Giocatori: {percentage:.2f}% dei giocatori\n"
+    if(i>9):
+        percentage = (player_count / total_players_count) * 100
+        summary_text += f"- {range:<6} Category: {player_count:<5} Players {percentage:<6.2f}% of Total Player: \n"
+    i+=1
 
-# Stampa del testo riassuntivo
+summary_text += f"\n Top 10 Agents (Total: {sumOfTopTenPerc:.2f}%):\n"
+i=0
+for range, player_count in grouped_players.items():
+    if(i<10):
+        percentage = (player_count / total_players_count) * 100
+        summary_text += f"- {range:<20} : {player_count:<5} Players {percentage:<6.2f}% of Total Player: \n"
+    else: break
+    i+=1
+
 print(summary_text)

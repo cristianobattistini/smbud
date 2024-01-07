@@ -1,74 +1,55 @@
-Percentuale di giocatori coperta dai primi 10 agenti:
-Totale: 7.37% dei giocatori
-- Agente Wasserman: 1.43% dei giocatori, 407 giocatori
-- Agente CAA Stellar: 1.15% dei giocatori, 328 giocatori
-- Agente ProStar: 1.11% dei giocatori, 315 giocatori
-- Agente CAA Base Ltd: 0.78% dei giocatori, 222 giocatori
-- Agente Unique Sports Group: 0.70% dei giocatori, 198 giocatori
-- Agente YOU FIRST: 0.56% dei giocatori, 158 giocatori
-- Agente Promoesport: 0.46% dei giocatori, 132 giocatori
-- Agente SEG: 0.45% dei giocatori, 129 giocatori
-- Agente ROOF: 0.39% dei giocatori, 111 giocatori
-- Agente Gestifute: 0.34% dei giocatori, 98 giocatori
+Summary of Agent and Player Distribution:
 
-Riassunto della Distribuzione degli Agenti e dei Giocatori:
+Percentage Distribution of Aget by group:
+- Top 10 : 10 Agents
+- 80-89  Category: 2     Agents
+- 70-79  Category: 2     Agents
+- 60-69  Category: 5     Agents
+- 50-59  Category: 5     Agents
+- 40-49  Category: 17    Agents
+- 30-39  Category: 30    Agents
+- 20-29  Category: 45    Agents
+- 15-19  Category: 59    Agents
+- 10-14  Category: 122   Agents
+- 9      Category: 41    Agents
+- 8      Category: 60    Agents
+- 7      Category: 73    Agents
+- 6      Category: 87    Agents
+- 5      Category: 120   Agents
+- 4      Category: 162   Agents
+- 3      Category: 260   Agents
+- 2      Category: 443   Agents
+- 1      Category: 974   Agents
 
-Distribuzione degli Agenti per Range di Giocatori:
-- 407 Giocatori: 1 agenti
-- 328 Giocatori: 1 agenti
-- 315 Giocatori: 1 agenti
-- 222 Giocatori: 1 agenti
-- 198 Giocatori: 1 agenti
-- 158 Giocatori: 1 agenti
-- 132 Giocatori: 1 agenti
-- 129 Giocatori: 1 agenti
-- 111 Giocatori: 1 agenti
-- 90-99 Giocatori: 1 agenti
-- 80-89 Giocatori: 2 agenti
-- 70-79 Giocatori: 2 agenti
-- 60-69 Giocatori: 5 agenti
-- 50-59 Giocatori: 5 agenti
-- 40-49 Giocatori: 17 agenti
-- 30-39 Giocatori: 30 agenti
-- 20-29 Giocatori: 45 agenti
-- 15-19 Giocatori: 59 agenti
-- 10-14 Giocatori: 122 agenti
-- 9 Giocatori: 41 agenti
-- 8 Giocatori: 60 agenti
-- 7 Giocatori: 73 agenti
-- 6 Giocatori: 87 agenti
-- 5 Giocatori: 120 agenti
-- 4 Giocatori: 162 agenti
-- 3 Giocatori: 260 agenti
-- 2 Giocatori: 443 agenti
-- 1 Giocatori: 974 agenti
+Percentage Distribution of player by Agent group:
+- Top 10 Agents  : 2098  Players 15.00 % of Total Player: 
+- 80-89  Category: 163   Players 1.17  % of Total Player: 
+- 70-79  Category: 154   Players 1.10  % of Total Player: 
+- 60-69  Category: 314   Players 2.24  % of Total Player: 
+- 50-59  Category: 269   Players 1.92  % of Total Player: 
+- 40-49  Category: 747   Players 5.34  % of Total Player: 
+- 30-39  Category: 1006  Players 7.19  % of Total Player: 
+- 20-29  Category: 1065  Players 7.61  % of Total Player: 
+- 15-19  Category: 995   Players 7.11  % of Total Player: 
+- 10-14  Category: 1406  Players 10.05 % of Total Player: 
+- 9      Category: 369   Players 2.64  % of Total Player: 
+- 8      Category: 480   Players 3.43  % of Total Player: 
+- 7      Category: 511   Players 3.65  % of Total Player: 
+- 6      Category: 522   Players 3.73  % of Total Player: 
+- 5      Category: 600   Players 4.29  % of Total Player: 
+- 4      Category: 648   Players 4.63  % of Total Player: 
+- 3      Category: 780   Players 5.58  % of Total Player: 
+- 2      Category: 886   Players 6.33  % of Total Player: 
+- 1      Category: 974   Players 6.96  % of Total Player: 
 
-Distribuzione Percentuale dei Giocatori per Categoria di Agenti:
-- 407 Giocatori: 2.91% dei giocatori
-- 328 Giocatori: 2.35% dei giocatori
-- 315 Giocatori: 2.25% dei giocatori
-- 222 Giocatori: 1.59% dei giocatori
-- 198 Giocatori: 1.42% dei giocatori
-- 158 Giocatori: 1.13% dei giocatori
-- 132 Giocatori: 0.94% dei giocatori
-- 129 Giocatori: 0.92% dei giocatori
-- 111 Giocatori: 0.79% dei giocatori
-- 90-99 Giocatori: 0.70% dei giocatori
-- 80-89 Giocatori: 1.17% dei giocatori
-- 70-79 Giocatori: 1.10% dei giocatori
-- 60-69 Giocatori: 2.24% dei giocatori
-- 50-59 Giocatori: 1.92% dei giocatori
-- 40-49 Giocatori: 5.34% dei giocatori
-- 30-39 Giocatori: 7.19% dei giocatori
-- 20-29 Giocatori: 7.61% dei giocatori
-- 15-19 Giocatori: 7.11% dei giocatori
-- 10-14 Giocatori: 10.05% dei giocatori
-- 9 Giocatori: 2.64% dei giocatori
-- 8 Giocatori: 3.43% dei giocatori
-- 7 Giocatori: 3.65% dei giocatori
-- 6 Giocatori: 3.73% dei giocatori
-- 5 Giocatori: 4.29% dei giocatori
-- 4 Giocatori: 4.63% dei giocatori
-- 3 Giocatori: 5.58% dei giocatori
-- 2 Giocatori: 6.33% dei giocatori
-- 1 Giocatori: 6.96% dei giocatori
+ Top 10 Agents (Total: 15.00%):
+- Wasserman            : 407   Players 2.91  % of Total Player: 
+- CAA Stellar          : 328   Players 2.35  % of Total Player: 
+- ProStar              : 315   Players 2.25  % of Total Player: 
+- CAA Base Ltd         : 222   Players 1.59  % of Total Player: 
+- Unique Sports Group  : 198   Players 1.42  % of Total Player: 
+- YOU FIRST            : 158   Players 1.13  % of Total Player: 
+- Promoesport          : 132   Players 0.94  % of Total Player: 
+- SEG                  : 129   Players 0.92  % of Total Player: 
+- ROOF                 : 111   Players 0.79  % of Total Player: 
+- Gestifute            : 98    Players 0.70  % of Total Player: 
