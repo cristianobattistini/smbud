@@ -122,8 +122,8 @@
 
 \puttitle{
 	title=Systems and Methods for Big and Unstructured Data Project,
-	name1=Cristiano Battistini, % Author Name and Surname
-	name2=Carlo Cardignan 11001182,
+	name1=Cristiano Battistini 244466, % Author Name and Surname
+	name2=Carlo Cardignan 250325,
 	name3=,
 	name4=,
 	name5=,
@@ -169,8 +169,8 @@
 \label{ch:chapter_one}%
 % The \label{...}% enables to remove the small indentation that is generated, always leave the % symbol.
 
-\section{Introduction}
-\label{sec:section_Introduction}
+%\section{Introduction}
+%\label{sec:section_Introduction}
 The advent of data-driven strategies in soccer has revolutionized the sport, providing insights that drive decisions, from player selection to game tactics. There are indeed many examples of clubs that have scouted top talent by leveraging data analysis. What's more, the millions of fans of the sport love to follow the statistics, to see the analytics of their idols in smartphone apps.\\
 Our project builds on this data-centric approach, leveraging a detailed data set that encapsulates the multifaceted nature of soccer, including player statistics, club data, and competition history. We chose MongoDB because its non-relational structure is particularly well suited to handle the diversity and volume of data we are dealing with. Unlike traditional relational databases, MongoDB's flexible data model allows us to store and process different types of data without the need for a predefined schema.\\
 MongoDB, being a document-oriented database, allows each player, club or competition to be represented as a document with a rich and dynamic set of attributes. In addition, MongoDB's horizontal scalability through automatic sharding is critical for handling large volumes of data, such as those generated in modern soccer. The performance of this technology is in fact optimal even as the data size increases. \\
@@ -190,6 +190,7 @@ A cleanup and standardization of football-related data was necessary. This proce
 	\centering
 	\begin{tabular}{|l|l|l|l|}
 		\hline
+    \rowcolor{bluepoli!40}
 		\textbf{Original Dataset} & \textbf{Attribute} & \textbf{Old Value} & \textbf{New Value} \\ \hline
 		players                   & sub\_position      & Attacking Midfield & AM                 \\ \hline
 		players                   & sub\_position      & Defensive Midfield & DM                 \\ \hline
@@ -212,7 +213,7 @@ A cleanup and standardization of football-related data was necessary. This proce
 		players                   & foot               & right              & R                  \\ \hline
 		players                   & foot               & left               & L                  \\ \hline
 	\end{tabular}
-	\caption{Your caption here}
+	\caption{Players Data Wrangling}
 	\label{your-label-here}
 \end{table}
 \newpage
@@ -221,6 +222,7 @@ A cleanup and standardization of football-related data was necessary. This proce
 	\centering
 	\begin{tabular}{|l|l|l|l|}
 		\hline
+    \rowcolor{bluepoli!40}
 		\textbf{Original Dataset} & \textbf{Attribute} & \textbf{Old Value}     & \textbf{New Value} \\ \hline
 		game\_events              & description        & Right-footed shot      & R                  \\ \hline
 		game\_events              & description        & Penalty                & P                  \\ \hline
@@ -237,7 +239,7 @@ A cleanup and standardization of football-related data was necessary. This proce
 		game\_events              & description        & Penalty rebound        & B                  \\ \hline
 		game\_events              & description        & Direct corner          & N                  \\ \hline
 	\end{tabular}
-	\caption{Your caption here}
+	\caption{Game Event Data Wrangling}
 	\label{your-label-here}
 \end{table}
 \subsection{club games}
@@ -245,17 +247,19 @@ A cleanup and standardization of football-related data was necessary. This proce
 	\centering
 	\begin{tabular}{|l|l|l|l|}
 		\hline
+    \rowcolor{bluepoli!40}
 		\textbf{Original Dataset} & \textbf{Attribute} & \textbf{Old Value} & \textbf{New Value} \\ \hline
 		club\_games               & hosting            & Home               & H                  \\ \hline
 		club\_games               & hosting            & Away               & A                  \\ \hline
 	\end{tabular}
-	\caption{Your caption here}
+	\caption{Clubs Data Wrangling}
 	\label{your-label-here}
 \end{table}
 \section{Original Data}
 Initially, the data were distributed in several datasets: 'clubs', 'club\_games', 'competitions', 'games', 'game\_events', 'player', 'player\_valuations' and 'appearances'. To optimize organization and accessibility, a restructuring into three main collections in the 'football' database was adopted. These are the initial datasets and their attributes:
 \begin{tabular}{|l|p{13cm}|}
 	\hline
+  \rowcolor{bluepoli!40}
 	\textbf{Dataset name} & \textbf{Attributes}                       \\
 	\hline
 	players
@@ -299,6 +303,7 @@ Initially, the data were distributed in several datasets: 'clubs', 'club\_games'
 
 \begin{tabular}{|l|p{13cm}|}
 	\hline
+  \rowcolor{bluepoli!40}
 	\textbf{Dataset name} & \textbf{Attributes}                       \\
 	\hline
 appearances
@@ -345,6 +350,7 @@ appearances
 
 \begin{tabular}{|l|p{13cm}|}
 	\hline
+  \rowcolor{bluepoli!40}
 	\textbf{Dataset name} & \textbf{Attributes}                       \\
 	\hline
     games
@@ -391,6 +397,7 @@ appearances
 
 \begin{tabular}{|l|p{13cm}|}
 	\hline
+  \rowcolor{bluepoli!40}
 	\textbf{Dataset name} & \textbf{Attributes}                       \\
 	\hline
     game\_events
@@ -414,13 +421,11 @@ In the following repository \\
 \label{ch:chapter_three}%
 
 \section{Dataset}
-
-Dataset
 The selected dataset is a large collection of football data, derived primarily from Transfermarkt. Updated regularly, it offers accurate data on more than 60,000 global competition matches, details on 400 clubs, and statistics on more than 30,000 players, including current and historical market values, physical characteristics, team membership, and individual performances. More than 1.2 million records detail competitive performances, such as appearances and cards. It is possible to observe the original one, saved in \url{www.kaggle.com} , at this link:
 \url{https://www.kaggle.com/datasets/thedevastator/football-data-competitions-clubs-players-statist }
 After the Data Wrangling/Data Generation changes, the MongoDB database, called football, has the following collections and statistics:
 \begin{itemize}
-    \item 'clubs' collection: 411 documents, with an average size of 108.74 kB per document. Total size of indexes: 20.48 kB.
+    \item 'Clubs' collection: 411 documents, with an average size of 108.74 kB per document. Total size of indexes: 20.48 kB.
     \item 'Competitions' collection: 43 documents, with an average size of 974.35 kB per document. Total size of indexes: 20.48 kB.
     \item 'Players' collection: 28,459  documents, with an average size of 7.45 kB per document. Total size of indexes: 409.60 kB.
 \end{itemize}
@@ -441,6 +446,7 @@ All the collections contain one or more arrays of sub-dcouments. Some sub-docume
 \end{figure}
     \begin{tabular}{|l|l|p{8cm}|}
     \hline
+    \rowcolor{bluepoli!40}
     \textbf{Attribute}              & \textbf{Type}           & \textbf{Description}                                                                 \\ \hline
     \_id                            & ObjectId                & A unique identifier for the document.                                                               \\ \hline
     club\_id                        & Int32                   & An integer representing the club's unique ID.                                                      \\ \hline
@@ -463,6 +469,7 @@ All the collections contain one or more arrays of sub-dcouments. Some sub-docume
 \subsubsection{Game Object inside Club}
     \begin{tabular}{|l|l|p{8cm}|}
     \hline
+    \rowcolor{bluepoli!40}
     \textbf{Attribute}            & \textbf{Type}           & \textbf{Description}                                                                                  \\ \hline
     game\_id                      & Int32                   & The unique identifier for the game.                                                                   \\ \hline
     own\_goals                    & Int32                   & The number of goals scored by the club.                                                               \\ \hline
@@ -479,6 +486,7 @@ All the collections contain one or more arrays of sub-dcouments. Some sub-docume
 \subsubsection{Events inside Games inside Clubs}
     \begin{tabular}{|l|l|p{8cm}|}
     \hline
+    \rowcolor{bluepoli!40}
     \textbf{Attribute}    & \textbf{Type}          & \textbf{Description}                                                                 \\ \hline
     minute                & Int32                  & The match time in minutes when the event occurred.                                   \\ \hline
     type                  & String                 & The category of the event, e.g., "Substitutions” or “Goals”                         \\ \hline
@@ -493,11 +501,12 @@ All the collections contain one or more arrays of sub-dcouments. Some sub-docume
 \subsection{Competition}
 \begin{figure}[htbp]
     \centering
-    \includegraphics[scale=0.45]{Images/Dataset/competitions.png}
+    \includegraphics[scale=0.4]{Images/Dataset/competitions.png}
     \caption{Competitions Collection}
 \end{figure}
 \begin{tabular}{|l|l|p{8cm}|}
     \hline
+    \rowcolor{bluepoli!40}
     \textbf{Attribute}            & \textbf{Type}           & \textbf{Description} \\ \hline
     \_id                          & ObjectId                & A unique identifier for the document. \\ \hline
     competition\_id               & String                  & An identifier for the competition. \\ \hline
@@ -513,6 +522,7 @@ All the collections contain one or more arrays of sub-dcouments. Some sub-docume
 \subsubsection{Game Object inside Competition}
     \begin{tabular}{|l|l|p{8cm}|}
         \hline
+        \rowcolor{bluepoli!40}
         \textbf{Attribute}            & \textbf{Type}           & \textbf{Description} \\ \hline
     game\_id                      & Int32                   & The unique identifier for the game. \\ \hline
     season                        & Int32                   & The year of the football season. \\ \hline
@@ -537,6 +547,7 @@ All the collections contain one or more arrays of sub-dcouments. Some sub-docume
 \subsubsection{Events inside Games inside Competions}
 \begin{tabular}{|l|l|p{8cm}|}
     \hline
+    \rowcolor{bluepoli!40}
     \textbf{Attribute}   & \textbf{Type}         & \textbf{Description} \\ \hline
     minute               & Int32                 & The match time in minutes when the event occurred. \\ \hline
     type                 & String                & The category of the event, e.g., "Substitutions” or “Goals” \\ \hline
@@ -557,6 +568,7 @@ All the collections contain one or more arrays of sub-dcouments. Some sub-docume
 \end{figure}
 \begin{tabular}{|l|l|p{8cm}|}
     \hline
+    \rowcolor{bluepoli!40}
     \textbf{Attribute}             & \textbf{Type}            & \textbf{Description} \\ \hline
     \_id                           & ObjectId                 & A unique identifier for the document. \\ \hline
     player\_id                     & Int32                    & A numeric identifier for the player. \\ \hline
@@ -583,6 +595,7 @@ All the collections contain one or more arrays of sub-dcouments. Some sub-docume
 \subsubsection{Player Valuations}
 \begin{tabular}{|l|l|p{8cm}|}
     \hline
+    \rowcolor{bluepoli!40}
     \textbf{Attribute}             & \textbf{Type}           & \textbf{Description} \\ \hline
     last\_season                   & Int32                   & The season year of the valuation. \\ \hline
     market\_value\_in\_eur         & Int32                   & The player's market value in euros at that time. \\ \hline
@@ -591,6 +604,7 @@ All the collections contain one or more arrays of sub-dcouments. Some sub-docume
 \subsubsection{Player Appearances}
 \begin{tabular}{|l|l|p{8cm}|}
     \hline
+    \rowcolor{bluepoli!40}
     \textbf{Attribute}      & \textbf{Type}    & \textbf{Description} \\ \hline
     game\_id                & Int32            & The identifier for the game. \\ \hline
     date                    & String           & The date when the game was played. \\ \hline
@@ -608,6 +622,7 @@ The competitions analyzed will include the Champions League and the major nation
 
 \begin{tabular}{|p{3cm}|p{2cm}|p{2cm}|p{2cm}|p{7cm}|}
     \hline
+    \rowcolor{bluepoli!40}
     \textbf{LEAGUE TYPE}          & \textbf{LEAGUE COUNTRY} & \textbf{LEAGUE CODE} & \textbf{LEAGUE NAME} & \\ \hline
     International (European) League &                        & CL                   & Champions League  & \\
     & & & &\includegraphics[scale=0.85]{Images/Leagues analysed/CL.png}   \\ \hline
@@ -619,6 +634,7 @@ The competitions analyzed will include the Champions League and the major nation
 
     \begin{tabular}{|p{3cm}|p{2cm}|p{2cm}|p{2cm}|p{6cm}|}
         \hline
+        \rowcolor{bluepoli!40}
         \textbf{LEAGUE TYPE}          & \textbf{LEAGUE COUNTRY} & \textbf{LEAGUE CODE} & \textbf{LEAGUE NAME} & \\ \hline
     Domestic League                & ENGLAND                & GB1                  & Premier League     & \\
     & & & &\includegraphics[scale=0.7]{Images/Leagues analysed/CL.png}  \\ \hline
@@ -668,23 +684,25 @@ The query starts with \$unwind to break down the appearances array of each playe
     ])
     
 \end{verbatim}
+\newpage
 \begin{itemize}
-    \item CL\\
+    \item \textbf{CL}\\
         \includegraphics[scale=0.8]{Images/Queries/Competitions_statistics/top_goalscorers/CL.png}
-    \item IT1\\
+    \item \textbf{IT1}\\
     \includegraphics[scale=0.8]{Images/Queries/Competitions_statistics/top_goalscorers/IT1.png}
-    \item ES1\\
+    \newpage
+    \item \textbf{ES1}\\
     \includegraphics[scale=0.8]{Images/Queries/Competitions_statistics/top_goalscorers/ES1.png}
-    \item FR1\\
+    \item \textbf{FR1}\\
     \includegraphics[scale=0.8]{Images/Queries/Competitions_statistics/top_goalscorers/FR1.png}
-    \item GB1\\
+    \newpage
+    \item \textbf{GB1}\\
     \includegraphics[scale=0.8]{Images/Queries/Competitions_statistics/top_goalscorers/GB1.png}
-    \item L1\\
+    \item \textbf{L1}\\
     \includegraphics[scale=0.8]{Images/Queries/Competitions_statistics/top_goalscorers/L1.png}
 \end{itemize}
-
 \subsection{Best Assist-men}
-Making an assist means putting a teammate in a position to put the ball in the net. This is also a very important statistic, often peculiar to side or full-back defenders, midfielders or wingers. The query starts with $unwind to break down the appearances array of each player document, then filters the appearances for a given competition_id. Next, $group aggregates the data by player, adding up the assists and capturing the player's name. Finally, there is a descending sort and a limit for the best 10 assist-men.
+Making an assist means putting a teammate in a position to put the ball in the net. This is also a very important statistic, often peculiar to side or full-back defenders, midfielders or wingers. The query starts with \$unwind to break down the appearances array of each player document, then filters the appearances for a given competition\_id. Next, \$group aggregates the data by player, adding up the assists and capturing the player's name. Finally, there is a descending sort and a limit for the best 10 assist-men.
 
 \begin{verbatim}
     db.players.aggregate([
@@ -708,6 +726,7 @@ Making an assist means putting a teammate in a position to put the ball in the n
     \caption{Best Assist-men Executed with CL competition}
 \end{figure}
 \newpage
+
 \subsection{Players with multiple yellow cards}
 There are also many players who make impetuousness and confrontation their strong point. The statistics on yellow cards say a lot about those players who exploit their physical strength, but because of this attitude are prone to committing fouls, punishable by yellow cards. The query starts with $unwind to break down the appearances array of each player document, then filters the appearances for a given competition_id. Next, $group aggregates the data by player, adding up the yellow cards taken and showing the player's name. 
 \begin{verbatim}
@@ -724,7 +743,7 @@ There are also many players who make impetuousness and confrontation their stron
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[scale=1]{Images/Queries/Competitions_statistics/yellow-cards/IT1.png}
+    \includegraphics[scale=0.9]{Images/Queries/Competitions_statistics/yellow-cards/IT1.png}
     \caption{Players with multiple yellow cards Executed with IT1 competition}
 \end{figure}
 \newpage
@@ -742,10 +761,9 @@ In contrast to yellow cards, which can happen in the course of a match, getting 
 \end{verbatim}
 \begin{figure}[htbp]
     \centering
-    \includegraphics[scale=1]{Images/Queries/Competitions_statistics/red-cards/GB1.png}
+    \includegraphics[scale=0.9]{Images/Queries/Competitions_statistics/red-cards/GB1.png}
     \caption{Players with multiple red cards Executed with IT1 competition}
 \end{figure}
-
 \subsection{Players with the most minutes played}
 This analysis shows those players who are certainties for their clubs: the so-called immovable starters. These players, workaholics par excellence, are usually the players who are almost always at the top, avoiding injuries. The query breaks down appearances, then it filters the appearances in a certain league, and then sums up the minutes played by each player, showing also the name of him.
 \begin{verbatim}
@@ -760,10 +778,9 @@ This analysis shows those players who are certainties for their clubs: the so-ca
 \end{verbatim}
 \begin{figure}[htbp]
     \centering
-    \includegraphics[scale=1]{Images/Queries/Competitions_statistics/minutes-played/ES1.png}
+    \includegraphics[scale=0.9]{Images/Queries/Competitions_statistics/minutes-played/ES1.png}
     \caption{Players with the most minutes played Executed with IT1 competition}
 \end{figure}
-
 \subsection{The players with the highest market value}
 This query is designed to identify the top soccer players in the database, highlighting those with the highest market value. It provides an overview of the most valuable talents in the world of soccer, revealing the names of players who have not only demonstrated excellent performances on the field, but are also considered valuable investments in the soccer landscape. Players can sometimes be overestimated or underestimated. This data is important because it takes into account not only performance but also a player's age. Younger players with important statistics will command high market prices.
 \\The first proposed query shows the current situation of market values for the players in the dataset ordered by their value in a descendent way.
@@ -788,10 +805,9 @@ The second query shows the best valuation for each player during its career and 
 \end{verbatim}
 \begin{figure}[htbp]
     \centering
-    \includegraphics[scale=0.8]{Images/Queries/Highest_value_players/2.png}
+    \includegraphics[scale=0.75]{Images/Queries/Highest_value_players/2.png}
     \caption{The players with the highest market value Second Query Execution}
 \end{figure}
-
 \subsection{The cities where the most players were born}
 This query lists the cities that produced the most players. It uses the \$group operation to group players by their city of birth, counts the number of players for each city with \$sum, and then sorts the results descendingly to show which cities generated the most football talents.
 \begin{verbatim}
@@ -803,7 +819,7 @@ db.players.aggregate([
 Not all the players in the database have a city of birth, so there are a count also of the players with this attribute null.
 \begin{figure}[htbp]
     \centering
-    \includegraphics[scale=1]{Images/Queries/Cities/cities.png}
+    \includegraphics[scale=1.1]{Images/Queries/Cities/cities.png}
     \caption{The cities where the most players were born Query Execution}
 \end{figure}
 \subsection{The most prolific and expensive strikers}
@@ -820,7 +836,7 @@ This query aims to identify the center forwards (position "A") with the highest 
 \end{verbatim}
 \begin{figure}[htbp]
     \centering
-    \includegraphics[scale=0.8]{Images/Queries/Prolific_expensive_strikers/pes.png}
+    \includegraphics[scale=0.7]{Images/Queries/Prolific_expensive_strikers/pes.png}
     \caption{The most prolific and expensive strikers Query Execution}
 \end{figure}
 \subsection{Midfielders with the most goals and assists and a bounded valuation}
@@ -835,15 +851,12 @@ The query focuses on midfielders (position "M") with a market value lower and up
                 { $sum: "$appearances.assists" } } },
         { $sort: { totalGoals: -1, totalAssists: -1 } }
       ])    
-      
-    min=10000000
-    max=20000000  
 \end{verbatim}
 
 \begin{figure}[htbp]
     \centering
     \includegraphics[scale=0.6]{Images/Queries/Midfielders_goal_assit_bounded_value/mgabv.png}
-    \caption{Midfielders with the most goals and assists and a bounded valuation Query Execution}
+    \caption{Midfielders with the most goals and assists and a bounded valuation Query Execution.(min=10000000,max=20000000)}
 \end{figure}
 
 \subsection{The cheapest but most prolific full-back defenders}
@@ -868,7 +881,7 @@ This query aims to identify right-backs (RB) and left-backs (LB) with the lowest
 \end{verbatim}
 \begin{figure}[htbp]
     \centering
-    \includegraphics[scale=0.8]{Images/Queries/Cheapest_prolific_full_backs/cpfb.png}
+    \includegraphics[scale=1.1]{Images/Queries/Cheapest_prolific_full_backs/cpfb.png}
     \caption{The cheapest but most prolific full-back defenders Query Execution}
 \end{figure}
 
@@ -884,7 +897,7 @@ This aggregation query lists all players who appeared in a specific match, ident
 \end{verbatim}
 \begin{figure}[htbp]
     \centering
-    \includegraphics[scale=0.8]{Images/Queries/Players_in_game/pg.png}
+    \includegraphics[scale=1]{Images/Queries/Players_in_game/pg.png}
     \caption{Players in a Specific Match Query Execution}
 \end{figure}
 
@@ -903,7 +916,7 @@ This query identifies the defenders who received the highest total number of car
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[scale=0.8]{Images/Queries/Defenders_most_cards/dmc.png}
+    \includegraphics[scale=0.7]{Images/Queries/Defenders_most_cards/dmc.png}
     \caption{Defender with most cards  Query Execution}
 \end{figure}
 
@@ -922,7 +935,7 @@ This query identifies the nations that produce the players with the highest mark
 \end{verbatim}
 \begin{figure}[htbp]
     \centering
-    \includegraphics[scale=0.8]{Images/Queries/Nation_talents_market_value/ntmv.png}
+    \includegraphics[scale=0.72]{Images/Queries/Nation_talents_market_value/ntmv.png}
     \caption{Nations with the best talents in terms of market value Query Execution}
 \end{figure}
 
@@ -981,7 +994,7 @@ This query identifies free agent players with the best goal scoring statistics i
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[scale=0.8]{Images/Queries/Most_prolific_free_agents/mpfa.png}
+    \includegraphics[scale=0.7]{Images/Queries/Most_prolific_free_agents/mpfa.png}
     \caption{Most Prolific free agents Query Execution}
 \end{figure}
 
@@ -1001,7 +1014,7 @@ Obviously, by changing names and searching for another player, one can see how m
     \includegraphics[scale=1]{Images/Queries/Cristiano_Ronaldo_goals/CRG.png}
     \caption{Cristiano Ronaldo Query Execution}
 \end{figure}
-
+\newpage
 \subsection{The youngest player}
 To find the youngest player in the database, the query sorts all players by their date of birth, from newest to oldest. In this way, the first player in the resulting list will be the youngest. Of course, to find the oldest you need to change "-1" with "1".
 \begin{verbatim}
@@ -1010,7 +1023,7 @@ To find the youngest player in the database, the query sorts all players by thei
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[scale=1]{Images/Queries/Youngest/y.png}
+    \includegraphics[scale=1.15]{Images/Queries/Youngest/y.png}
     \caption{The youngest player Query Execution}
 \end{figure}
 
@@ -1032,7 +1045,7 @@ This query identifies the forwards who had the most appearances in games without
     \includegraphics[scale=1]{Images/Queries/Strikers_without_goals/swg.png}
     \caption{Strikers with more matches without goals Query Execution}
 \end{figure}
-
+\newpage
 \subsection{Average height of goalkeepers}
 Within the 'players' collection SI first filters by position, selecting only players classified as goalkeepers (e.g., position "G" for goalkeeper), then groups the data to calculate the average height.
 \begin{verbatim}
@@ -1057,14 +1070,14 @@ This query identifies the agent of the player with the highest market value reco
   { name: 1, agent_name: 1, market_value_in_eur: 1 }
 ).sort({ market_value_in_eur: -1 }).limit(1)
 \end{verbatim}
-
+\newpage
 \begin{figure}[htbp]
     \centering
-    \includegraphics[scale=1]{Images/Queries/Average_market_value_club/amvc.png}
+    \includegraphics[scale=0.8]{Images/Queries/Average_market_value_club/amvc.png}
     \caption{Agent with the most valuable player Query Execution}
 \end{figure}
 However, in this specific case, the result will show "null" for the agent\_name field indicating that there is no registered agent, which may correspond to situations where a family member, such as the mother in Mbappé's case, assists the player in contractual matters.
-
+\newpage
 \subsection{The italian players with the highest goal ratio}
 
 This query shows the best italian players with the highest ratio between goal and appearances.
@@ -1102,10 +1115,10 @@ The statistics are important only for players with more than 50 appearances.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[scale=1]{Images/Queries/Italian_ratio_goals/irg.png}
+    \includegraphics[scale=0.7]{Images/Queries/Italian_ratio_goals/irg.png}
     \caption{The italian players with the highest goal ratio Query Execution}
 \end{figure}
-
+  
 \subsection{The French players with the highest minutes ratio}
 This query shows the best italian players with the highest ratio between minutes and appearances.
 To get the French players with the highest minutes-to-apperance ratio, the query would first calculate the total minutes and total appearances for each player, then divide the total minutes by the total number of appearances to get the ratio. Here is how it would be structured:
@@ -1117,6 +1130,7 @@ To get the French players with the highest minutes-to-apperance ratio, the query
     \item Sort the results by minutes/attendance ratio in a descending manner.
     \item The statistics are important only for players with more than 50 appearances.
 \end{enumerate}
+\newpage
 \begin{verbatim}
     db.players.aggregate([
   { $match: { country_of_citizenship: "France" } },
@@ -1139,16 +1153,16 @@ To get the French players with the highest minutes-to-apperance ratio, the query
 \end{verbatim}
 \begin{figure}[htbp]
     \centering
-    \includegraphics[scale=1]{Images/Queries/French_minutes_ratio/fmr.png}
+    \includegraphics[scale=0.65]{Images/Queries/French_minutes_ratio/fmr.png}
     \caption{The French players with the highest minutes ratio Query Execution}
 \end{figure}
-
+\newpage
 \section{Competitions Collection }
 \subsection{Most Followed Matches}
 The query selects the games from the 'competitions' collection that had the most spectators. It uses the 'attendance' field within the array of 'games' for each competition. The goal is to identify those games that attracted the most significant audience attention, an indicator of the match's popularity or importance. 
 The first query returns the most followed matches among all the competitions.
 \begin{verbatim}
-    db.competitions.aggregate([
+db.competitions.aggregate([
   { $unwind: "$games" },
   { $project: 
     { "game_id": "$games.game_id", "attendance": "$games.attendance" } },
@@ -1158,68 +1172,60 @@ The first query returns the most followed matches among all the competitions.
 \end{verbatim}
 \begin{figure}[htbp]
     \centering
-    \includegraphics[scale=1]{Images/Queries/Competitions/most_followed_games/mfg.png}
+    \includegraphics[scale=0.75]{Images/Queries/Competitions/most_followed_games/mfg.png}
     \caption{Most Followed Matches First Query Execution}
 \end{figure}
 The second query returns the most followed matches filtering by competition. It is inserted a placeholder "$<$competition\_id$>$" to search the preferred league. In the picture competition\_id is equal to CL (Champions League)
 \begin{verbatim}
-    db.competitions.aggregate([
-        { $match: { "competition_id": "<competition_id>" } },
-        { $unwind: "$games" },
-        { $project: { "game_id": 
-            "$games.game_id", "attendance": "$games.attendance", "competition_id": 1 } },
-        { $sort: { "attendance": -1 } },
-        { $limit: 5 }
-      ])           
+db.competitions.aggregate([
+    { $match: { "competition_id": "<competition_id>" } },
+    { $unwind: "$games" },
+    { $project: { "game_id": 
+        "$games.game_id", "attendance": "$games.attendance", "competition_id": 1 } },
+    { $sort: { "attendance": -1 } },
+    { $limit: 5 }
+  ])           
 \end{verbatim}
 \begin{figure}[htbp]
     \centering
-    \includegraphics[scale=1]{Images/Queries/Competitions/most_followed_games/mfgcl.png}
+    \includegraphics[scale=0.9]{Images/Queries/Competitions/most_followed_games/mfgcl.png}
     \caption{Most Followed Matches Second Query Execution}
 \end{figure}
 
 \subsection{Most goals scored by a single team}
 These queries are designed to retrieve the games with the highest number of goals scored by a single team, with the second one specifically filtering for games within the "Champions League" competition. They unwind the games array, calculate the maximum goals scored in a game, sort the results by this maximum in descending order, and limit the output to the top 5 records.
 \begin{verbatim}
-  db.competitions.aggregate([
-    { $unwind: "$games" },
-    { $project: { game_id: "$games.game_id", maxGoals: { $max: ["$games.home_club_goals", "$games.away_club_goals"] } } },
-    { $sort: { maxGoals: -1 } },
-    { $limit: 5 }
-  ])
+db.competitions.aggregate([
+  { $unwind: "$games" },
+  { $project: { game_id: "$games.game_id", maxGoals: 
+  { $max: ["$games.home_club_goals", "$games.away_club_goals"] } } },
+  { $sort: { maxGoals: -1 } },
+  { $limit: 5 }
+])
+\end{verbatim}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.85]{Images/Queries/Competitions/most_goal_single_teams/mgst.png}
+    \caption{Most Followed Matches First Query Execution}
+\end{figure}
 
+\begin{verbatim}
   db.competitions.aggregate([
     { $match: { "competition_id": "CL" } },
     { $unwind: "$games" },
-    { $project: { game_id: "$games.game_id", maxGoals: { $max: ["$games.home_club_goals", "$games.away_club_goals"] } } },
+    { $project: { game_id: "$games.game_id", maxGoals: 
+    { $max: ["$games.home_club_goals", "$games.away_club_goals"] } } },
     { $sort: { maxGoals: -1 } },
     { $limit: 5 }
   ])
-  
-\end{verbatim}
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[scale=0.8]{Images/Queries/Competitions/most_goal_single_teams/mgst.png}
-    \caption{Most Followed Matches First Query Execution}
-\end{figure}
-\begin{verbatim}
-    db.competitions.aggregate([
-        { $match: { "competition_id": "<competition_id>" } },
-        { $unwind: "$games" },
-        { $group: { _id: "$games.home_club_name", homeWins: 
-            { $sum: { $cond: [{ $gt: 
-                ["$games.home_club_goals", "$games.away_club_goals"] }, 1, 0] } } } },
-        { $sort: { homeWins: -1 } },
-        { $limit: 5 }
-      ]) 
 \end{verbatim}
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[scale=0.8]{Images/Queries/Competitions/most_goal_single_teams/mgstcl.png}
+    \includegraphics[scale=0.9]{Images/Queries/Competitions/most_goal_single_teams/mgstcl.png}
     \caption{Most Followed Matches Second Query Execution}
 \end{figure}
-
+\newpage
 \section{Clubs Collection}
 \subsection{Clubs with more late goals}
 The query runs through the 'clubs' collection, expands the 'games' array and its 'events' for each club, then filtering out events that are goals scored beyond the 80th minute. It then groups the results by 'club\_code' and counts the late goals for each club, sorting the clubs by the number of these goals.
@@ -1227,14 +1233,14 @@ The query runs through the 'clubs' collection, expands the 'games' array and its
     db.clubs.aggregate([
   { $unwind: "$games" },
   { $unwind: "$games.events" },
-  { $match: { "games.events.type": "Goals", "games.events.minute": { $gt: 80 } } },
+  { $match: { "games.events.type": "Goals", "games.events.minute":{ $gt: 80 } } },
   { $group: { _id: "$club_code", lateGoals: { $sum: 1 } } },
   { $sort: { lateGoals: -1 } }
 ])
 \end{verbatim}
 \begin{figure}[htbp]
     \centering
-    \includegraphics[scale=0.8]{Images/Queries/Clubs/late_goals_per_club/lgpc.png}
+    \includegraphics[scale=0.9]{Images/Queries/Clubs/late_goals_per_club/lgpc.png}
     \caption{Late goals Query Execution}
 \end{figure}
 \subsection{Clubs with most foreign players}
@@ -1247,10 +1253,10 @@ The query selects all clubs and projects only the 'club\_code' and the 'foreigne
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[scale=0.8]{Images/Queries/Clubs/Foreign_percentages/fp.png}
+    \includegraphics[scale=1]{Images/Queries/Clubs/Foreign_percentages/fp.png}
     \caption{Clubs with most foreign players Query Execution}
 \end{figure}
-
+\newpage
 \subsection{Clubs with more wins at home}
 This query identifies clubs that have scored the most goals in home games. After expanding the array games, it filters for games played at home and sums the goals scored in these games. Finally, it sorts the clubs by the total number of goals scored at home.
 \begin{verbatim}
@@ -1264,7 +1270,7 @@ This query identifies clubs that have scored the most goals in home games. After
 \end{verbatim}
 \begin{figure}[htbp]
     \centering
-    \includegraphics[scale=0.8]{Images/Queries/Clubs/more_wins_at_home/mwat.png}
+    \includegraphics[scale=0.9]{Images/Queries/Clubs/more_wins_at_home/mwat.png}
     \caption{Clubs with more wins at home Query Execution}
 \end{figure}
 
@@ -1283,9 +1289,6 @@ which supplement the main results contained in the previous chapters.
 
 % LIST OF FIGURES
 \listoffigures
-
-% LIST OF TABLES
-\listoftables
 
 \cleardoublepage
 
