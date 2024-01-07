@@ -50,5 +50,4 @@ for (player, club_id), games in sorted_player_by_presence:
     i += 1
     if i > 14:
         break
-
 print(summary_text)
