@@ -1027,24 +1027,6 @@ To find the youngest player in the database, the query sorts all players by thei
     \caption{The youngest player Query Execution}
 \end{figure}
 
-\subsection{Strikers with more matches without goals}
-This query identifies the forwards who had the most appearances in games without scoring goals. It first filters by position, identifying forwards, then breaks down the array of appearances. With an aggregation, it counts the number of games in which the player did not score, and finally sorts the results to show who had the most appearances without scoring goals. 
-\begin{verbatim}
-    db.players.aggregate([
-      { $match: { sub_position: "CF" } },
-      { $unwind: "$appearances" },
-      { $group: { _id: "$_id", name: { $first: "$name" },
-        appearancesWithoutGoals: 
-            { $sum: { $cond: [{ $eq: ["$appearances.goals", 0] }, 1, 0] } } } },
-      { $sort: { appearancesWithoutGoals: -1 } }
-    ])
-\end{verbatim}
-
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[scale=1]{Images/Queries/Strikers_without_goals/swg.png}
-    \caption{Strikers with more matches without goals Query Execution}
-\end{figure}
 \newpage
 \subsection{Average height of goalkeepers}
 Within the 'players' collection the query first filters by position, selecting only players classified as goalkeepers (e.g., position "G" for goalkeeper), then groups the data to calculate the average height.
